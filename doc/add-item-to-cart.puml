@@ -1,6 +1,6 @@
 @startuml
 'https://plantuml.com/sequence-diagram
-title Display Scanned Item
+title Add Item to Cart
 hide footbox
 skinparam sequenceMessageAlign center
 skinparam sequence {
