@@ -1,5 +1,6 @@
 @startuml
 'https://plantuml.com/sequence-diagram
+title Display Scanned Item
 hide footbox
 skinparam sequenceMessageAlign center
 skinparam sequence {
@@ -42,10 +43,10 @@ store -> warehouse: getItemAvailableQuantity(selectedItem)
 return selectedItem quantity
 store -> store: getPriceForItem(selectedItem)
 note right
-**getPriceForItem()** is an //internal// method call
-in **StoreBusinessLayer**.  This is where any
-discounts are applied based on business
-rules after retrieving selectedItem's price.
+    **getPriceForItem()** is an //internal// method call
+    in **StoreBusinessLayer**.  This is where any
+    discounts are applied based on business
+    rules after retrieving selectedItem's price.
 end note
 store -> selectedItem: get price (attribute)
 return item price
@@ -60,8 +61,10 @@ return item details, price, reviews and recommendations
 return render item detail and price
 return item detail and price
 customer -> astro: tap on selected item \nto add to cart
-astro -> appController--: add item to cart
+astro -> appController: add item to cart
 ref#F8CECC over appController
 Add Item to Cart
 end ref
+return render updated cart
+return updated display
 @enduml

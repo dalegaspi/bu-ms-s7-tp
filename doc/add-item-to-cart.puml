@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+title Display Scanned Item
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam sequence {
+LifeLineBorderColor #D79B00
+LifeLineBackgroundColor #FFE6CC
+}
+actor Customer as customer #F8CECC
+participant ":Astro" as astro <<Design>> #E1D5E7
+participant ":AstroAppController" as appController <<Controller>> #DAE8FC
+participant ":ShoppingCart" as cart #FFFFFF
+participant ":CustomerProfile" as profile #FFFFFF
+participant "selectedItem:Item" as selectedItem #FFFFFF
+participant ":MobileCamera" as camera <<Interface>> #D5E8D4
+participant ":QRItemLookup" as qrLookup <<Interface>> #D5E8D4
+participant ":StoreBusinessLayer" as store <<Controller>> #DAE8FC
+participant ":WarehouseInventory" as warehouse <<Controller>> #DAE8FC
+participant "Recommender" as recommender <<Interface>>#D5E8D4
+participant ":ReviewsAPI" as reviewsApi <<Interface>> #D5E8D4
+'autonumber
+autoactivate On
+activate customer
+customer -> astro: tap on "Add Item to Cart" button
+astro -> astro: handleAddItemToCart()
+note right
+this is the handler for
+the tap action for the
+"Add Item to Cart" button
+end note
+astro -> appController: addItemToCart(selectedItem, quantity)
+appController -> cart: getItems()
+return items
+appController -> store: computeCartTotals(items)
+return cart item price and quantity totals
+appController -> cart: addItemToCart(selectedItem, quantity)
+return updated cart
+appController -> store: updateItemAvailable(selectedItem, quantity)
+store -> warehouse: updateItemAvailable(selectedItem, quantity)
+return updated item inventory
+return updated cart information
+return updated cart display
+deactivate
+return updated cart display
+@enduml
