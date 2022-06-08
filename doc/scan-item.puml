@@ -1,0 +1,67 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam sequence {
+LifeLineBorderColor #D79B00
+LifeLineBackgroundColor #FFE6CC
+}
+actor Customer as customer #F8CECC
+participant ":Astro" as astro <<Design>> #E1D5E7
+participant ":AstroAppController" as appController <<Controller>> #DAE8FC
+participant ":ShoppingCart" as cart #FFFFFF
+participant ":CustomerProfile" as profile #FFFFFF
+participant "selectedItem:Item" as selectedItem #FFFFFF
+participant ":MobileCamera" as camera <<Interface>> #D5E8D4
+participant ":QRItemLookup" as qrLookup <<Interface>> #D5E8D4
+participant ":StoreBusinessLayer" as store <<Controller>> #DAE8FC
+participant ":WarehouseInventory" as warehouse <<Controller>> #DAE8FC
+participant "Recommender" as recommender <<Interface>>#D5E8D4
+participant ":ReviewsAPI" as reviewsApi <<Interface>> #D5E8D4
+'autonumber
+autoactivate On
+activate customer
+customer -> astro: Scan QR Code
+astro -> appController: scanWithCamera()
+appController -> camera: scan()
+return QR code image
+appController -> qrLookup: convertQrCodeToItemId(QR Code Image)
+return scanned item ID
+appController -> store: lookupByItemId(scanned item ID)
+group Create item instance
+    store -> selectedItem: << create Item instance >>
+    return scanned item
+end
+return scanned item
+return highlight scanned item
+return highlight scanned item
+customer -> astro: tap to get details
+astro -> appController: displayItemDetails(selectedItem)
+appController -> store: getItemDetails(selectedItem)
+store -> warehouse: getItemAvailableQuantity(selectedItem)
+return selectedItem quantity
+store -> store: getPriceForItem(selectedItem)
+note right
+**getPriceForItem()** is an //internal// method call
+in **StoreBusinessLayer**.  This is where any
+discounts are applied based on business
+rules after retrieving selectedItem's price.
+end note
+store -> selectedItem: get price (attribute)
+return item price
+deactivate
+store -> recommender: getRecommendations(selectedItem)
+recommender -> profile: getDetails(customer)
+return customer profile details
+return recommendations
+store -> reviewsApi: getReviesForItem(selectedItem)
+return reviews
+return item details, price, reviews and recommendations
+return render item detail and price
+return item detail and price
+customer -> astro: tap on selected item \nto add to cart
+astro -> appController--: add item to cart
+ref#F8CECC over appController
+Add Item to Cart
+end ref
+@enduml
