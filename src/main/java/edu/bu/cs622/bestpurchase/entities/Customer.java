@@ -2,6 +2,12 @@ package edu.bu.cs622.bestpurchase.entities;
 
 import java.util.List;
 
+/**
+ * Customer
+ *
+ * @author dlegaspi@bu.edu
+ * @see Person
+ */
 public class Customer extends Person {
     private CustomerProfile profile;
     private Store currentStoreLocation;

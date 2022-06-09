@@ -3,6 +3,7 @@ package edu.bu.cs622.bestpurchase.exceptions;
 /**
  * Base class exception
  *
+ * @author dlegaspi@bu.edu
  */
 public class BestPurchaseAppException extends Exception {
     public BestPurchaseAppException() {

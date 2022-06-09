@@ -1,5 +1,10 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+/**
+ * Person
+ *
+ * @author dlegaspi@bu.edu
+ */
 public abstract class Person {
     private IdType id;
     private String firstName;

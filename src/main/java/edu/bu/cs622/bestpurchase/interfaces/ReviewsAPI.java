@@ -8,6 +8,11 @@ import io.vavr.control.Either;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * Reviews API
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class ReviewsAPI {
 
     @Inject

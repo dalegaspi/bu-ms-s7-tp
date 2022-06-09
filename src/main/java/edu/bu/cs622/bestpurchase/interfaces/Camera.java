@@ -5,6 +5,11 @@ import io.vavr.control.Either;
 
 import javax.inject.Inject;
 
+/**
+ * Camera
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class Camera {
 
     @Inject

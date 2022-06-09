@@ -3,6 +3,11 @@ package edu.bu.cs622.bestpurchase.entities;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Id type
+ *
+ * @author dlegaspi@bu.edu
+ */
 public final class IdType {
     private UUID id;
 

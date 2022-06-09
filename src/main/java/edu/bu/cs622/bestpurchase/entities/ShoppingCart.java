@@ -1,9 +1,12 @@
 package edu.bu.cs622.bestpurchase.entities;
 
-import javax.swing.text.html.Option;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Shopping cart
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class ShoppingCart {
     private IdType id;
     private Map<Item, ItemCartStatus> items;

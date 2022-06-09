@@ -1,11 +1,18 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+/**
+ * Address location
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class AddressLocation {
     private IdType id;
     private String address;
     private String city;
     private String zipCode;
     private String country;
+
+    private GPSCoordinates coordinates;
 
     public IdType getId() {
         return id;
@@ -41,5 +48,13 @@ public class AddressLocation {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public GPSCoordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(GPSCoordinates coordinates) {
+        this.coordinates = coordinates;
     }
 }

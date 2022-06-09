@@ -2,6 +2,12 @@ package edu.bu.cs622.bestpurchase.entities;
 
 import java.util.List;
 
+/**
+ * Employee
+ *
+ * @author dlegaspi@bu.edu
+ * @see edu.bu.cs622.bestpurchase.entities.Person
+ */
 public class Employee extends Person {
     public Employee(String firstName, String lastName) {
         super(firstName, lastName);

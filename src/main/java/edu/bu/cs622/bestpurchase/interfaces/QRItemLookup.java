@@ -7,6 +7,9 @@ import io.vavr.control.Either;
 
 import javax.inject.Inject;
 
+/**
+ * QR Code Lookup
+ */
 public class QRItemLookup {
 
     @Inject

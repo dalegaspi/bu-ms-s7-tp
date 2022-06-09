@@ -1,5 +1,10 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+/**
+ * Item review
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class ItemReview {
     private Item item;
     private String url;

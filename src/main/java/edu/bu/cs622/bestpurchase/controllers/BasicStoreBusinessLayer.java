@@ -3,6 +3,7 @@ package edu.bu.cs622.bestpurchase.controllers;
 import edu.bu.cs622.bestpurchase.entities.*;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.Recommender;
+import edu.bu.cs622.bestpurchase.interfaces.ReviewsAPI;
 import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,15 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 
+/**
+ * Default implementation of StoreBusinessLayer
+ *
+ * @see StoreBusinessLayer
+ * @see WarehouseInventory
+ * @see ReviewsAPI
+ * @see Recommender
+ * @author dlegaspi@bu.edu
+ */
 public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     private static Logger logger = LoggerFactory.getLogger(BasicStoreBusinessLayer.class);
 
@@ -17,13 +27,16 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     private Recommender recommender;
     private WarehouseInventory warehouseInventory;
 
+    private ReviewsAPI reviewsAPI;
+
     @Inject
-    public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory, Store store, Recommender recommender) {
+    public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory, Store store, Recommender recommender, ReviewsAPI reviewsAPI) {
         logger.debug("Store business layer created.");
 
         this.warehouseInventory = warehouseInventory;
         this.store = store;
         this.recommender = recommender;
+        this.reviewsAPI = reviewsAPI;
     }
 
     @Override

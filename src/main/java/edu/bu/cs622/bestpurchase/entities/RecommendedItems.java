@@ -2,6 +2,11 @@ package edu.bu.cs622.bestpurchase.entities;
 
 import java.util.List;
 
+/**
+ * Recommended items
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class RecommendedItems {
     private List<Item> items;
     private CustomerProfile profile;

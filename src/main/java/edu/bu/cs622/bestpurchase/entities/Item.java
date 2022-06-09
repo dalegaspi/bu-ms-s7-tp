@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Item for the store
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class Item {
     private IdType id;
     private String description;

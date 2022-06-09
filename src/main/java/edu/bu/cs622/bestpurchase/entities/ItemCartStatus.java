@@ -1,5 +1,10 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+/**
+ * Item cart status
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class ItemCartStatus {
     private int quantity;
     private boolean isFulfilled;

@@ -3,6 +3,11 @@ package edu.bu.cs622.bestpurchase.entities;
 import javax.inject.Inject;
 import java.util.List;
 
+/**
+ * Store
+ *
+ * @author dlegaspi@bu.edu
+ */
 public class Store {
     @Inject
     public Store() {
