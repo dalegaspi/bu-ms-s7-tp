@@ -1,14 +1,14 @@
-edu/bu/cs622/bestpurchase/interfaces/BasicStoreBusinessLayer.class
+edu/bu/cs622/bestpurchase/controller/WarehouseInventory.class
 edu/bu/cs622/bestpurchase/exceptions/BestPurchaseAppException.class
 edu/bu/cs622/bestpurchase/entity/Store.class
 edu/bu/cs622/bestpurchase/entity/Person.class
 edu/bu/cs622/bestpurchase/entity/AddressLocation.class
 edu/bu/cs622/bestpurchase/Astro.class
+edu/bu/cs622/bestpurchase/controller/StoreBusinessLayer.class
 edu/bu/cs622/bestpurchase/App.class
-edu/bu/cs622/bestpurchase/interfaces/AstroAppModule_BuildStoreBusinessLayerFactory.class
 edu/bu/cs622/bestpurchase/entity/ShoppingCart.class
-edu/bu/cs622/bestpurchase/interfaces/StoreBusinessLayer.class
 edu/bu/cs622/bestpurchase/controller/AstroAppController.class
+edu/bu/cs622/bestpurchase/controller/BasicStoreBusinessLayerModule.class
 edu/bu/cs622/bestpurchase/entity/IdType.class
 edu/bu/cs622/bestpurchase/DaggerBestPurchaseFactory$BestPurchaseFactoryImpl.class
 edu/bu/cs622/bestpurchase/entity/Employee.class
@@ -19,4 +19,6 @@ edu/bu/cs622/bestpurchase/entity/Customer.class
 edu/bu/cs622/bestpurchase/BestPurchaseFactory.class
 edu/bu/cs622/bestpurchase/DaggerBestPurchaseFactory.class
 edu/bu/cs622/bestpurchase/entity/Item.class
+edu/bu/cs622/bestpurchase/entity/Warehouse.class
 edu/bu/cs622/bestpurchase/entity/ItemCategory.class
+edu/bu/cs622/bestpurchase/controller/BasicStoreBusinessLayer.class

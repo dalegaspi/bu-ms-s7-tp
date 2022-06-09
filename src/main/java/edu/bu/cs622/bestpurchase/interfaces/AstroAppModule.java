@@ -5,8 +5,5 @@ import dagger.Provides;
 
 @Module
 public class AstroAppModule {
-    @Provides
-    StoreBusinessLayer buildStoreBusinessLayer() {
-        return new BasicStoreBusinessLayer();
-    }
+
 }

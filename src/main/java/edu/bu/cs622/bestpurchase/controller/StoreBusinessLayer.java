@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.interfaces;
+package edu.bu.cs622.bestpurchase.controller;
 
 /**
  * Store business layer interface

@@ -5,6 +5,8 @@ import dagger.internal.Factory;
 import dagger.internal.Preconditions;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
+import edu.bu.cs622.bestpurchase.controller.StoreBusinessLayer;
+
 import javax.annotation.processing.Generated;
 
 @ScopeMetadata

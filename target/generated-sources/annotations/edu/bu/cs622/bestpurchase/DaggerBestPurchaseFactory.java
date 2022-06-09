@@ -3,8 +3,10 @@ package edu.bu.cs622.bestpurchase;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Preconditions;
 import edu.bu.cs622.bestpurchase.controller.AstroAppController;
+import edu.bu.cs622.bestpurchase.controller.BasicStoreBusinessLayer;
+import edu.bu.cs622.bestpurchase.controller.WarehouseInventory;
+import edu.bu.cs622.bestpurchase.entity.Warehouse;
 import edu.bu.cs622.bestpurchase.interfaces.AstroAppModule;
-import edu.bu.cs622.bestpurchase.interfaces.AstroAppModule_BuildStoreBusinessLayerFactory;
 import javax.annotation.processing.Generated;
 
 @DaggerGenerated
@@ -29,36 +31,41 @@ public final class DaggerBestPurchaseFactory {
   }
 
   public static final class Builder {
-    private AstroAppModule astroAppModule;
-
     private Builder() {
     }
 
+    /**
+     * @deprecated This module is declared, but an instance is not used in the component. This method is a no-op. For more, see https://dagger.dev/unused-modules.
+     */
+    @Deprecated
     public Builder astroAppModule(AstroAppModule astroAppModule) {
-      this.astroAppModule = Preconditions.checkNotNull(astroAppModule);
+      Preconditions.checkNotNull(astroAppModule);
       return this;
     }
 
     public BestPurchaseFactory build() {
-      if (astroAppModule == null) {
-        this.astroAppModule = new AstroAppModule();
-      }
-      return new BestPurchaseFactoryImpl(astroAppModule);
+      return new BestPurchaseFactoryImpl();
     }
   }
 
   private static final class BestPurchaseFactoryImpl implements BestPurchaseFactory {
-    private final AstroAppModule astroAppModule;
-
     private final BestPurchaseFactoryImpl bestPurchaseFactoryImpl = this;
 
-    private BestPurchaseFactoryImpl(AstroAppModule astroAppModuleParam) {
-      this.astroAppModule = astroAppModuleParam;
+    private BestPurchaseFactoryImpl() {
+
 
     }
 
+    private WarehouseInventory warehouseInventory() {
+      return new WarehouseInventory(new Warehouse());
+    }
+
+    private BasicStoreBusinessLayer basicStoreBusinessLayer() {
+      return new BasicStoreBusinessLayer(warehouseInventory());
+    }
+
     private AstroAppController astroAppController() {
-      return new AstroAppController(AstroAppModule_BuildStoreBusinessLayerFactory.buildStoreBusinessLayer(astroAppModule));
+      return new AstroAppController(basicStoreBusinessLayer());
     }
 
     @Override
