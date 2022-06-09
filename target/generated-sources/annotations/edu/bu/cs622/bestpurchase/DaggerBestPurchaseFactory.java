@@ -2,11 +2,13 @@ package edu.bu.cs622.bestpurchase;
 
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Preconditions;
-import edu.bu.cs622.bestpurchase.controller.AstroAppController;
-import edu.bu.cs622.bestpurchase.controller.BasicStoreBusinessLayer;
-import edu.bu.cs622.bestpurchase.controller.WarehouseInventory;
-import edu.bu.cs622.bestpurchase.entity.Warehouse;
+import edu.bu.cs622.bestpurchase.controllers.AstroAppController;
+import edu.bu.cs622.bestpurchase.controllers.BasicStoreBusinessLayer;
+import edu.bu.cs622.bestpurchase.controllers.WarehouseInventory;
+import edu.bu.cs622.bestpurchase.entities.Store;
+import edu.bu.cs622.bestpurchase.entities.Warehouse;
 import edu.bu.cs622.bestpurchase.interfaces.AstroAppModule;
+import edu.bu.cs622.bestpurchase.interfaces.Recommender;
 import javax.annotation.processing.Generated;
 
 @DaggerGenerated
@@ -61,7 +63,7 @@ public final class DaggerBestPurchaseFactory {
     }
 
     private BasicStoreBusinessLayer basicStoreBusinessLayer() {
-      return new BasicStoreBusinessLayer(warehouseInventory());
+      return new BasicStoreBusinessLayer(warehouseInventory(), new Store(), new Recommender());
     }
 
     private AstroAppController astroAppController() {

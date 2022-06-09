@@ -1,6 +1,6 @@
 package edu.bu.cs622.bestpurchase;
 
-import edu.bu.cs622.bestpurchase.controller.AstroAppController;
+import edu.bu.cs622.bestpurchase.controllers.AstroAppController;
 
 import javax.inject.Inject;
 

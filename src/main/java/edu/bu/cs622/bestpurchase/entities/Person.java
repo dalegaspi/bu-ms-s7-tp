@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.entity;
+package edu.bu.cs622.bestpurchase.entities;
 
 public abstract class Person {
     private IdType id;

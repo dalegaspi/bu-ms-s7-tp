@@ -1,8 +1,14 @@
-package edu.bu.cs622.bestpurchase.entity;
+package edu.bu.cs622.bestpurchase.entities;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class Store {
+    @Inject
+    public Store() {
+
+    }
+
     private Warehouse warehouse;
     private AddressLocation location;
     private List<Employee> employees;

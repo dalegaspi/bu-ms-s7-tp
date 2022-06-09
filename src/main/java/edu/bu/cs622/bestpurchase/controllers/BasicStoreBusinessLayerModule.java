@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.controller;
+package edu.bu.cs622.bestpurchase.controllers;
 
 import dagger.Binds;
 import dagger.Module;

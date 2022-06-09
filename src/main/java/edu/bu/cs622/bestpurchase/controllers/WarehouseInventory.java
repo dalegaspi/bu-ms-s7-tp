@@ -1,6 +1,6 @@
-package edu.bu.cs622.bestpurchase.controller;
+package edu.bu.cs622.bestpurchase.controllers;
 
-import edu.bu.cs622.bestpurchase.entity.Warehouse;
+import edu.bu.cs622.bestpurchase.entities.Warehouse;
 
 import javax.inject.Inject;
 

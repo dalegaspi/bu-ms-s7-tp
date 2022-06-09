@@ -1,7 +1,8 @@
-package edu.bu.cs622.bestpurchase.entity;
+package edu.bu.cs622.bestpurchase.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 public class Item {
     private IdType id;
@@ -44,5 +45,25 @@ public class Item {
 
     public void setCategories(List<ItemCategory> categories) {
         this.categories = categories;
+    }
+
+    public String getDetails() {
+        return toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        if (obj instanceof Item) {
+            return ((Item) obj).getId().equals(this.getId());
+        } else
+            return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, description);
     }
 }
