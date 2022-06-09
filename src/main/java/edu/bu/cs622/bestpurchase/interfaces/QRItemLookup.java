@@ -1,22 +1,9 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
 import edu.bu.cs622.bestpurchase.entities.IdType;
-import edu.bu.cs622.bestpurchase.entities.Item;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 
-import javax.inject.Inject;
-
-/**
- * QR Code Lookup
- */
-public class QRItemLookup {
-
-    @Inject
-    public QRItemLookup() {
-    }
-
-    public Either<BestPurchaseAppException, IdType> convertQRCodeToItemId(Object qrcode) {
-        return Either.right(new IdType());
-    }
+public interface QRItemLookup {
+    Either<BestPurchaseAppException, IdType> convertQRCodeToItemId(Object qrcode);
 }

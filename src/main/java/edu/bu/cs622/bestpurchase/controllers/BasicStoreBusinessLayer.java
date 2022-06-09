@@ -2,6 +2,8 @@ package edu.bu.cs622.bestpurchase.controllers;
 
 import edu.bu.cs622.bestpurchase.entities.*;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
+import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
+import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
 import edu.bu.cs622.bestpurchase.interfaces.Recommender;
 import edu.bu.cs622.bestpurchase.interfaces.ReviewsAPI;
 import io.vavr.control.Either;
@@ -15,9 +17,9 @@ import java.math.BigDecimal;
  * Default implementation of StoreBusinessLayer
  *
  * @see StoreBusinessLayer
- * @see WarehouseInventory
- * @see ReviewsAPI
- * @see Recommender
+ * @see BasicWarehouseInventory
+ * @see BasicReviewsAPI
+ * @see BasicRecommender
  * @author dlegaspi@bu.edu
  */
 public class BasicStoreBusinessLayer implements StoreBusinessLayer {

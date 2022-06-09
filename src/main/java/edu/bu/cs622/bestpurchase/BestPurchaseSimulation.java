@@ -6,12 +6,14 @@ import org.slf4j.LoggerFactory;
 /**
  * @author dlegaspi@bu.edu
  */
-public class App {
-    private static Logger logger = LoggerFactory.getLogger(App.class);
+public class BestPurchaseSimulation {
+    private static Logger logger = LoggerFactory.getLogger(BestPurchaseSimulation.class);
 
     public static void main(String[] args) {
         BestPurchaseFactory factory = DaggerBestPurchaseFactory.create();
 
         var astroApp = factory.buildAstro();
+
+
     }
 }
