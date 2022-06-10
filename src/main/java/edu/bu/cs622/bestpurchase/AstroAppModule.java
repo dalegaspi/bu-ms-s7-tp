@@ -33,4 +33,7 @@ public abstract class AstroAppModule {
 
     @Binds
     abstract QRItemLookup getBasicQRItemLookup(BasicQRItemLookup qrItemLookup);
+
+    @Binds
+    abstract CustomerDatabase getBasicCustomerDatabase(BasicCustomerDatabase customerDatabase);
 }

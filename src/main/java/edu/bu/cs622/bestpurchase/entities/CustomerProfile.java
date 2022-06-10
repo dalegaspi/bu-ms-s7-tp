@@ -2,6 +2,10 @@ package edu.bu.cs622.bestpurchase.entities;
 
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
+import io.vavr.control.Try;
+
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /**
  * Customer profile
@@ -23,7 +27,32 @@ public class CustomerProfile {
         this.userName = userName;
     }
 
-    Either<BestPurchaseAppException, Boolean> authenticate() {
-        return Either.right(true);
+    public Either<BestPurchaseAppException, Boolean> authenticate(String password) {
+        return createHash(password).map(hash -> Arrays.equals(passwordHash, hash));
+    }
+
+    public static Either<BestPurchaseAppException, byte[]> createHash(String data) {
+        return Try.of(() -> MessageDigest.getInstance("MD5"))
+                        .toEither()
+                        .mapLeft(t -> new BestPurchaseAppException("Unable to create MD5 MessageDigest", t))
+                        .map(d -> {
+                            d.update(data.getBytes());
+                            return d.digest();
+                        });
+    }
+
+    public Either<BestPurchaseAppException, Void> setCredentials(String username, String password) {
+        return createHash(password).map(hash -> {
+            this.passwordHash = hash;
+            return null;
+        });
+    }
+
+    public Object getRecommenderData() {
+        return recommenderData;
+    }
+
+    public void setRecommenderData(Object recommenderData) {
+        this.recommenderData = recommenderData;
     }
 }
