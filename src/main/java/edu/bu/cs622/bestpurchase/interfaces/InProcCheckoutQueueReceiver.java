@@ -18,7 +18,7 @@ import java.io.ObjectInputStream;
  * @author dlegaspi@bu.edu
  */
 @Singleton
-public class InProcCheckoutQueueReceiver extends AbstractInProcQueue implements CheckoutQueueReceiver {
+public class InProcCheckoutQueueReceiver extends AbstractInProcQueue<ShoppingCart> implements CheckoutQueueReceiver<ShoppingCart> {
 
     private ZMQ.Socket conn;
 
@@ -29,15 +29,6 @@ public class InProcCheckoutQueueReceiver extends AbstractInProcQueue implements 
 
     @Override
     public Either<CheckoutException, ShoppingCart> receive() {
-
-        return Try.of(() -> {
-            var bytes = conn.recv();
-            var inputStream = new ByteArrayInputStream(bytes);
-            var objectInput = new ObjectInputStream(inputStream);
-
-            var cart = (ShoppingCart) objectInput.readObject();
-            return cart;
-        }).toEither().mapLeft(t -> new CheckoutException("ShoppingCart receive error", t));
+        return receive(conn);
     }
-
 }

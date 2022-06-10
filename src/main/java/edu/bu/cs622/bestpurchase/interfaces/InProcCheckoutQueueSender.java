@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
  * @author dlegaspi@bu.edu
  */
 @Singleton
-public class InProcCheckoutQueueSender extends AbstractInProcQueue implements CheckoutQueueSender {
+public class InProcCheckoutQueueSender extends AbstractInProcQueue<ShoppingCart> implements CheckoutQueueSender<ShoppingCart> {
 
     private ZMQ.Socket conn;
 
@@ -26,18 +26,9 @@ public class InProcCheckoutQueueSender extends AbstractInProcQueue implements Ch
         conn = createSenderSocket();
     }
 
+
     @Override
     public Either<CheckoutException, Void> send(ShoppingCart cart) {
-        return Try.run(() -> {
-            var outputStream = new ByteArrayOutputStream();
-            var objectOutput = new ObjectOutputStream(outputStream);
-            objectOutput.writeObject(cart);
-
-            var bytes = outputStream.toByteArray();
-            objectOutput.close();
-            outputStream.close();
-
-            conn.send(bytes);
-        }).toEither().mapLeft(t -> new CheckoutException("ShoppingCart send error", t));
+        return send(conn, cart);
     }
 }
