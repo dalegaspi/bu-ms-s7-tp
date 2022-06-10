@@ -8,30 +8,21 @@ import io.vavr.control.Either;
 import javax.inject.Inject;
 import java.util.*;
 
-public class BasicCustomerDatabase implements CustomerDatabase {
-
-    Map<IdType, Customer> customers;
+public class BasicCustomerDatabase extends AbstractBasicDatabase<IdType, Customer> implements CustomerDatabase {
 
     @Inject
     public BasicCustomerDatabase() {
-        customers = new HashMap<>();
+        super();
     }
 
     @Override
-    public Either<BestPurchaseAppException, Integer> insert(Collection<Customer> newCustomers) {
-        newCustomers.forEach(customer -> customers.put(customer.getId(), customer));
-
-        return Either.right(customers.size());
-    }
-
-    @Override
-    public Either<BestPurchaseAppException, Optional<Customer>> lookupById(IdType customerId) {
-        return Either.right(Optional.ofNullable(customers.get(customerId)));
+    IdType getPrimaryKey(Customer entity) {
+        return entity.getId();
     }
 
     @Override
     public Either<BestPurchaseAppException, Optional<Customer>> searchByUsername(String username) {
-        return Either.right(customers.values().stream()
+        return Either.right(data.values().stream()
                         .filter(c -> c.getProfile().getUserName().equalsIgnoreCase(username))
                         .findAny());
     }

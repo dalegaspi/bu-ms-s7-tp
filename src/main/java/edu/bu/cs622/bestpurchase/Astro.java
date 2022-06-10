@@ -15,7 +15,6 @@ public class Astro {
     private ShoppingCart cart;
     private Item selectedItem;
 
-
     @Inject
     public Astro(AstroAppController appController) {
         this.appController = appController;

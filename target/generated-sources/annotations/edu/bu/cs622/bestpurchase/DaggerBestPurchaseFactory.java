@@ -6,6 +6,7 @@ import edu.bu.cs622.bestpurchase.controllers.BasicStoreBusinessLayer;
 import edu.bu.cs622.bestpurchase.controllers.BasicWarehouseInventory;
 import edu.bu.cs622.bestpurchase.entities.Store;
 import edu.bu.cs622.bestpurchase.entities.Warehouse;
+import edu.bu.cs622.bestpurchase.interfaces.BasicCustomerDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
 import javax.annotation.processing.Generated;
@@ -57,7 +58,7 @@ public final class DaggerBestPurchaseFactory {
     }
 
     private AstroAppController astroAppController() {
-      return new AstroAppController(basicStoreBusinessLayer());
+      return new AstroAppController(basicStoreBusinessLayer(), new BasicCustomerDatabase());
     }
 
     @Override
