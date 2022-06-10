@@ -17,29 +17,32 @@ import edu.bu.cs622.bestpurchase.interfaces.*;
 public abstract class AstroAppModule {
 
     @Binds
-    abstract StoreBusinessLayer getBasicStoreBusinessLayer(BasicStoreBusinessLayer storeBusinessLayer);
+    abstract StoreBusinessLayer getStoreBusinessLayer(BasicStoreBusinessLayer storeBusinessLayer);
 
     @Binds
-    abstract ReviewsAPI getBasicReviewsAPI(BasicReviewsAPI reviewsAPI);
+    abstract ReviewsAPI getReviewsAPI(BasicReviewsAPI reviewsAPI);
 
     @Binds
-    abstract WarehouseInventory getBasicWarehouseInventory(BasicWarehouseInventory warehouseInventory);
+    abstract WarehouseInventory getWarehouseInventory(BasicWarehouseInventory warehouseInventory);
 
     @Binds
-    abstract Recommender getBasicRecommender(BasicRecommender recommender);
+    abstract Recommender getRecommender(BasicRecommender recommender);
 
     @Binds
-    abstract Camera getBasicCamera(BasicCamera camera);
+    abstract Camera getCamera(BasicCamera camera);
 
     @Binds
-    abstract QRItemLookup getBasicQRItemLookup(BasicQRItemLookup qrItemLookup);
+    abstract QRItemLookup getQRItemLookup(BasicQRItemLookup qrItemLookup);
 
     @Binds
-    abstract CustomerDatabase getBasicCustomerDatabase(BasicCustomerDatabase customerDatabase);
+    abstract CustomerDatabase getCustomerDatabase(BasicCustomerDatabase customerDatabase);
 
     @Binds
-    abstract EmployeeDatabase getBasicEmployeeDatabase(BasicEmployeeDatabase employeeDatabase);
+    abstract EmployeeDatabase getEmployeeDatabase(BasicEmployeeDatabase employeeDatabase);
 
     @Binds
-    abstract ItemDatabase getBasicItemDatabase(BasicItemDatabase itemDatabase);
+    abstract ItemDatabase getItemDatabase(BasicItemDatabase itemDatabase);
+
+    @Binds
+    abstract CheckoutQueueSender getCheckoutQueue(InProcCheckoutQueueSender checkoutQueue);
 }

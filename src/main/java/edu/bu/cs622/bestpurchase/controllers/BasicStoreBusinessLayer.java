@@ -31,6 +31,7 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     @Inject
     public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory,
                                    EmployeeDatabase employeeDatabase,
+
                                    Store store,
                                    Recommender recommender,
                                    ReviewsAPI reviewsAPI) {

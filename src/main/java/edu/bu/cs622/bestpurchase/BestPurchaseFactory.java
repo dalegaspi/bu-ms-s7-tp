@@ -14,4 +14,6 @@ import javax.inject.Singleton;
 @Component(modules = { AstroAppModule.class })
 public interface BestPurchaseFactory {
     Astro buildAstro();
+
+    Rosie buildRosie();
 }

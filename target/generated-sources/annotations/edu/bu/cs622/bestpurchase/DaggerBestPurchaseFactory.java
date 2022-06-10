@@ -5,6 +5,7 @@ import dagger.internal.DoubleCheck;
 import edu.bu.cs622.bestpurchase.controllers.AstroAppController;
 import edu.bu.cs622.bestpurchase.controllers.BasicStoreBusinessLayer;
 import edu.bu.cs622.bestpurchase.controllers.BasicWarehouseInventory;
+import edu.bu.cs622.bestpurchase.controllers.RosieAppController;
 import edu.bu.cs622.bestpurchase.entities.Store;
 import edu.bu.cs622.bestpurchase.entities.Warehouse;
 import edu.bu.cs622.bestpurchase.interfaces.BasicCustomerDatabase;
@@ -14,6 +15,8 @@ import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
+import edu.bu.cs622.bestpurchase.interfaces.InProcCheckoutQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.InProcCheckoutQueueSender_Factory;
 import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 
@@ -50,6 +53,8 @@ public final class DaggerBestPurchaseFactory {
   private static final class BestPurchaseFactoryImpl implements BestPurchaseFactory {
     private final BestPurchaseFactoryImpl bestPurchaseFactoryImpl = this;
 
+    private Provider<InProcCheckoutQueueSender> inProcCheckoutQueueSenderProvider;
+
     private Provider<BasicItemDatabase> basicItemDatabaseProvider;
 
     private Provider<BasicEmployeeDatabase> basicEmployeeDatabaseProvider;
@@ -61,7 +66,7 @@ public final class DaggerBestPurchaseFactory {
     }
 
     private BasicWarehouseInventory basicWarehouseInventory() {
-      return new BasicWarehouseInventory(new Warehouse(), basicItemDatabaseProvider.get(), basicEmployeeDatabaseProvider.get());
+      return new BasicWarehouseInventory(new Warehouse(), inProcCheckoutQueueSenderProvider.get(), basicItemDatabaseProvider.get(), basicEmployeeDatabaseProvider.get());
     }
 
     private BasicStoreBusinessLayer basicStoreBusinessLayer() {
@@ -72,8 +77,13 @@ public final class DaggerBestPurchaseFactory {
       return new AstroAppController(basicStoreBusinessLayer(), new BasicCustomerDatabase());
     }
 
+    private RosieAppController rosieAppController() {
+      return new RosieAppController(basicWarehouseInventory());
+    }
+
     @SuppressWarnings("unchecked")
     private void initialize() {
+      this.inProcCheckoutQueueSenderProvider = DoubleCheck.provider(InProcCheckoutQueueSender_Factory.create());
       this.basicItemDatabaseProvider = DoubleCheck.provider(BasicItemDatabase_Factory.create());
       this.basicEmployeeDatabaseProvider = DoubleCheck.provider(BasicEmployeeDatabase_Factory.create());
     }
@@ -81,6 +91,11 @@ public final class DaggerBestPurchaseFactory {
     @Override
     public Astro buildAstro() {
       return new Astro(astroAppController());
+    }
+
+    @Override
+    public Rosie buildRosie() {
+      return new Rosie(rosieAppController());
     }
   }
 }
