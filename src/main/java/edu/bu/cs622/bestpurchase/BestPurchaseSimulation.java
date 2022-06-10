@@ -10,7 +10,7 @@ public class BestPurchaseSimulation {
     private static Logger logger = LoggerFactory.getLogger(BestPurchaseSimulation.class);
 
     public static void setup(Astro astro) {
-        astro.getAppController()
+        astro.getAppController();
     }
 
     public static void main(String[] args) {
