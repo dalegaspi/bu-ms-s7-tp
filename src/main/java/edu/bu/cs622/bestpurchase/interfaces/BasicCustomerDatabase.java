@@ -6,8 +6,10 @@ import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.*;
 
+@Singleton
 public class BasicCustomerDatabase extends AbstractBasicDatabase<IdType, Customer> implements CustomerDatabase {
 
     @Inject
@@ -15,7 +17,6 @@ public class BasicCustomerDatabase extends AbstractBasicDatabase<IdType, Custome
         super();
     }
 
-    @Override
     IdType getPrimaryKey(Customer entity) {
         return entity.getId();
     }

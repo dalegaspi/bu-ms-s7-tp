@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
+import edu.bu.cs622.bestpurchase.entities.IdType;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 
@@ -8,14 +9,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class AbstractBasicDatabase<K, V> {
+public abstract class AbstractBasicDatabase<K, V> implements EntityDatabase<K, V> {
     protected Map<K, V> data;
+
+    abstract K getPrimaryKey(V entity);
 
     public AbstractBasicDatabase() {
         data = new HashMap<>();
     }
-
-    abstract K getPrimaryKey(V entity);
 
     public Either<BestPurchaseAppException, Integer> insert(Collection<V> entities) {
         entities.forEach(e -> data.put(getPrimaryKey(e), e));

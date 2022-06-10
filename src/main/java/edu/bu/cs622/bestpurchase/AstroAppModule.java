@@ -36,4 +36,10 @@ public abstract class AstroAppModule {
 
     @Binds
     abstract CustomerDatabase getBasicCustomerDatabase(BasicCustomerDatabase customerDatabase);
+
+    @Binds
+    abstract EmployeeDatabase getBasicEmployeeDatabase(BasicEmployeeDatabase employeeDatabase);
+
+    @Binds
+    abstract ItemDatabase getBasicItemDatabase(BasicItemDatabase itemDatabase);
 }

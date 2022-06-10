@@ -2,10 +2,7 @@ package edu.bu.cs622.bestpurchase.controllers;
 
 import edu.bu.cs622.bestpurchase.entities.*;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
-import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
-import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
-import edu.bu.cs622.bestpurchase.interfaces.Recommender;
-import edu.bu.cs622.bestpurchase.interfaces.ReviewsAPI;
+import edu.bu.cs622.bestpurchase.interfaces.*;
 import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +29,11 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     private ReviewsAPI reviewsAPI;
 
     @Inject
-    public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory, Store store, Recommender recommender, ReviewsAPI reviewsAPI) {
+    public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory,
+                                   EmployeeDatabase employeeDatabase,
+                                   Store store,
+                                   Recommender recommender,
+                                   ReviewsAPI reviewsAPI) {
         logger.debug("Store business layer created.");
 
         this.warehouseInventory = warehouseInventory;
