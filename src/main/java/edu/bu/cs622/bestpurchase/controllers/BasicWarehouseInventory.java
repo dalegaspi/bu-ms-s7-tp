@@ -3,10 +3,7 @@ package edu.bu.cs622.bestpurchase.controllers;
 import edu.bu.cs622.bestpurchase.entities.Item;
 import edu.bu.cs622.bestpurchase.entities.Warehouse;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
-import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueReceiver;
-import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueSender;
-import edu.bu.cs622.bestpurchase.interfaces.EmployeeDatabase;
-import edu.bu.cs622.bestpurchase.interfaces.ItemDatabase;
+import edu.bu.cs622.bestpurchase.interfaces.*;
 import io.vavr.control.Either;
 
 import javax.inject.Inject;
@@ -25,15 +22,19 @@ public class BasicWarehouseInventory implements WarehouseInventory {
 
     private CartCheckoutQueueReceiver checkoutQueueReceiver;
 
+    private AddItemToCartQueueReceiver addItemToCartQueueReceiver;
+
     @Inject
     public BasicWarehouseInventory(Warehouse warehouse,
                                    CartCheckoutQueueReceiver checkoutQueueReceiver,
+                                   AddItemToCartQueueReceiver addItemToCartQueueReceiver,
                                    ItemDatabase itemDatabase,
                                    EmployeeDatabase employeeDatabase) {
         this.warehouse = warehouse;
         this.employeeDatabase = employeeDatabase;
         this.itemDatabase = itemDatabase;
         this.checkoutQueueReceiver = checkoutQueueReceiver;
+        this.addItemToCartQueueReceiver = addItemToCartQueueReceiver;
     }
 
     @Override

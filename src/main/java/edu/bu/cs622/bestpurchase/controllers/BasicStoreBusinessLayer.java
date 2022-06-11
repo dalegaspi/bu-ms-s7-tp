@@ -30,10 +30,13 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     private CartCheckoutQueueSender checkoutQueueSender;
 
+    private AddItemToCartQueueSender addItemToCartQueueSender;
+
     @Inject
     public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory,
                                    EmployeeDatabase employeeDatabase,
                                    CartCheckoutQueueSender checkoutQueueSender,
+                                   AddItemToCartQueueSender addItemToCartQueueSender,
                                    Store store,
                                    Recommender recommender,
                                    ReviewsAPI reviewsAPI) {
@@ -44,6 +47,7 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
         this.recommender = recommender;
         this.reviewsAPI = reviewsAPI;
         this.checkoutQueueSender = checkoutQueueSender;
+        this.addItemToCartQueueSender = addItemToCartQueueSender;
     }
 
     @Override

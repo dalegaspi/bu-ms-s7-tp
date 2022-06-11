@@ -54,6 +54,18 @@ public abstract class AstroAppModule {
         return new InProcQueueContext();
     }
 
+    @Provides
+    @Singleton
+    @Named("ITEM")
+    static InProcQueueContext getAddItemToCartQueueContext() {
+        return new InProcQueueContext();
+    }
+
+    @Binds
+    abstract AddItemToCartQueueSender getAddItemToCartQueueSender(InProcAddItemToCartQueueSender checkoutQueue);
+
+    @Binds
+    abstract AddItemToCartQueueReceiver getAddItemToCartQueueReceiver(InProcAddItemToCartQueueReceiver checkoutQueue);
 
     @Binds
     abstract CartCheckoutQueueSender getCheckoutQueueSender(InProcCartCheckoutQueueSender checkoutQueue);
