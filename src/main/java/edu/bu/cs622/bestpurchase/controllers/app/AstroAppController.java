@@ -1,6 +1,6 @@
 package edu.bu.cs622.bestpurchase.controllers.app;
 
-import edu.bu.cs622.bestpurchase.controllers.StoreBusinessLayer;
+import edu.bu.cs622.bestpurchase.controllers.store.StoreBusinessLayer;
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;

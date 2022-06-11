@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.controllers;
+package edu.bu.cs622.bestpurchase.controllers.store;
 
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
