@@ -1,5 +1,8 @@
 package edu.bu.cs622.bestpurchase;
 
+import edu.bu.cs622.bestpurchase.factories.BestPurchaseFactory;
+import edu.bu.cs622.bestpurchase.factories.DaggerBestPurchaseFactory;
+import edu.bu.cs622.bestpurchase.views.Astro;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

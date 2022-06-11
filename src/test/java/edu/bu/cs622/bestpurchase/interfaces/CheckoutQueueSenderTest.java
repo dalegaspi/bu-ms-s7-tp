@@ -1,12 +1,10 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
-import edu.bu.cs622.bestpurchase.BestPurchaseFactory;
-import edu.bu.cs622.bestpurchase.DaggerBestPurchaseFactory;
-import edu.bu.cs622.bestpurchase.entities.Item;
-import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
-import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
+import edu.bu.cs622.bestpurchase.factories.BestPurchaseFactory;
+import edu.bu.cs622.bestpurchase.factories.DaggerBestPurchaseFactory;
+import edu.bu.cs622.bestpurchase.entities.store.Item;
+import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import io.vavr.Tuple;
-import io.vavr.control.Either;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +18,7 @@ class CheckoutQueueSenderTest {
     static void init() {
         factory = DaggerBestPurchaseFactory.create();
     }
+
     @Test
     void testCartCheckoutQueue() {
         var sender = factory.buildCartCheckoutQueueSender();

@@ -1,6 +1,8 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
-import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
+import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
+import edu.bu.cs622.bestpurchase.interfaces.queues.AbstractInProcQueue;
+import edu.bu.cs622.bestpurchase.interfaces.queues.InProcQueueContext;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +12,8 @@ class AbstractInProcQueueTest {
     @Test
     void testSimpleBinarySerialization() {
         var ctx = new InProcQueueContext();
-        var q = new AbstractInProcQueue<String>(ctx) {};
+        var q = new AbstractInProcQueue<String>(ctx) {
+        };
 
         var bytes = q.serialize("hello");
         assertTrue(bytes.isRight());
@@ -22,7 +25,8 @@ class AbstractInProcQueueTest {
     @Test
     void testComplexBinarySerialization() {
         var ctx = new InProcQueueContext();
-        var q = new AbstractInProcQueue<ShoppingCart>(ctx) {};
+        var q = new AbstractInProcQueue<ShoppingCart>(ctx) {
+        };
 
         var bytes = q.serialize(new ShoppingCart());
         assertTrue(bytes.isRight());

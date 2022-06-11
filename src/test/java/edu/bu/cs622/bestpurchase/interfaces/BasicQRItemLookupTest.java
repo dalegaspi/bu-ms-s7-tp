@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
+import edu.bu.cs622.bestpurchase.interfaces.hardware.BasicCameraSimulator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
