@@ -1,11 +1,13 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
+
 /**
  * Item cart status
  *
  * @author dlegaspi@bu.edu
  */
-public class ItemCartStatus {
+public class ItemCartStatus implements Serializable {
     private int quantity;
     private boolean isFulfilled;
 

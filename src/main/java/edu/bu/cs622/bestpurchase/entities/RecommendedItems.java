@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * @author dlegaspi@bu.edu
  */
-public class RecommendedItems {
+public class RecommendedItems implements Serializable {
     private List<Item> items;
     private CustomerProfile profile;
 

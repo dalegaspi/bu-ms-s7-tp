@@ -1,6 +1,5 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
-import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
@@ -17,26 +16,26 @@ public abstract class AbstractInProcQueue<T> {
 
     private final String ADDRESS = "inproc://best-purchase-checkout-queue";
 
-    protected ZContext context;
+    static protected ZContext context = new ZContext();
 
     protected AbstractInProcQueue() {
-        context = new ZContext();
+
     }
 
     protected ZMQ.Socket createReceiverSocket() {
-        var s = context.createSocket(SocketType.REP);
+        var s = context.createSocket(SocketType.PAIR);
         s.bind(ADDRESS);
         return s;
     }
 
     protected ZMQ.Socket createSenderSocket() {
-        var s = context.createSocket(SocketType.REP);
+        var s = context.createSocket(SocketType.PAIR);
         s.connect(ADDRESS);
         return s;
     }
 
-    protected Either<CheckoutException, Void> send(ZMQ.Socket conn, T entity) {
-        return Try.run(() -> {
+    public Either<CheckoutException, byte[]> serialize(T entity) {
+        return Try.of(() -> {
             var outputStream = new ByteArrayOutputStream();
             var objectOutput = new ObjectOutputStream(outputStream);
             objectOutput.writeObject(entity);
@@ -45,19 +44,32 @@ public abstract class AbstractInProcQueue<T> {
             objectOutput.close();
             outputStream.close();
 
-            conn.send(bytes);
-        }).toEither().mapLeft(t -> new CheckoutException("ShoppingCart send error", t));
+            return bytes;
+        }).toEither().mapLeft(t -> new CheckoutException("Serialization error", t));
     }
 
     @SuppressWarnings("unchecked")
-    protected Either<CheckoutException, T> receive(ZMQ.Socket conn) {
+    public Either<CheckoutException, T> deserialize(byte[] bytes) {
         return Try.of(() -> {
-            var bytes = conn.recv();
-            var inputStream = new ByteArrayInputStream(bytes);
-            var objectInput = new ObjectInputStream(inputStream);
+        var inputStream = new ByteArrayInputStream(bytes);
+        var objectInput = new ObjectInputStream(inputStream);
 
-            var entity = objectInput.readObject();
-            return (T) entity;
-        }).toEither().mapLeft(t -> new CheckoutException("ShoppingCart receive error", t));
+        var entity = objectInput.readObject();
+        return (T) entity;
+        }).toEither().mapLeft(t -> new CheckoutException("Deserialization error", t));
+    }
+
+    protected Either<CheckoutException, Boolean> send(ZMQ.Socket conn, T entity) {
+        return serialize(entity)
+                .map(bytes -> conn.send(bytes))
+                .mapLeft(t -> new CheckoutException("ShoppingCart send error", t));
+    }
+
+
+    protected Either<CheckoutException, T> receive(ZMQ.Socket conn) {
+        return Try.of(() -> conn.recv())
+                .toEither()
+                .mapLeft(t -> new CheckoutException("ShoppingCart receive error", t))
+                .flatMap(bytes -> deserialize(bytes));
     }
 }

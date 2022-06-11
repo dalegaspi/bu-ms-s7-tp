@@ -5,5 +5,5 @@ import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
 import io.vavr.control.Either;
 
 public interface CheckoutQueueSender<T> {
-    Either<CheckoutException, Void> send(T cart);
+    Either<CheckoutException, Boolean> send(T cart);
 }

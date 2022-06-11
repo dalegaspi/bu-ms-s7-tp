@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import java.util.Objects;
  *
  * @author dlegaspi@bu.edu
  */
-public class Item {
+public class Item implements Serializable {
     private IdType id;
     private String description;
     private String unitOfMeasure;

@@ -1,11 +1,13 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
+
 /**
  * Person
  *
  * @author dlegaspi@bu.edu
  */
-public abstract class Person {
+public abstract class Person implements Serializable {
     private IdType id;
     private String firstName;
     private String lastName;

@@ -1,11 +1,13 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
+
 /**
  * GPS coordinates
  *
  * @author dlegaspi@bu.edu
  */
-public class GPSCoordinates {
+public class GPSCoordinates implements Serializable {
 
     private double longitude;
     private double latitude;

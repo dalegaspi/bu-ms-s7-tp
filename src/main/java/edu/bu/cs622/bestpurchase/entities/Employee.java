@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author dlegaspi@bu.edu
  * @see edu.bu.cs622.bestpurchase.entities.Person
  */
-public class Employee extends Person {
+public class Employee extends Person implements Serializable {
     public Employee(String firstName, String lastName) {
         super(firstName, lastName);
     }

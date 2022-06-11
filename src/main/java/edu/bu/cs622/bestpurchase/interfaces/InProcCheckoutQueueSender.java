@@ -28,7 +28,7 @@ public class InProcCheckoutQueueSender extends AbstractInProcQueue<ShoppingCart>
 
 
     @Override
-    public Either<CheckoutException, Void> send(ShoppingCart cart) {
+    public Either<CheckoutException, Boolean> send(ShoppingCart cart) {
         return send(conn, cart);
     }
 }

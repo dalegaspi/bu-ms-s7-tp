@@ -1,6 +1,7 @@
 package edu.bu.cs622.bestpurchase.entities;
 
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  *
  * @author dlegaspi@bu.edu
  */
-public class ItemCategory {
+public class ItemCategory implements Serializable {
 
     @Inject
     public ItemCategory() {

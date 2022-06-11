@@ -4,6 +4,7 @@ import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -13,7 +14,7 @@ import java.util.Arrays;
  * @author dlegaspi@bu.edu
  * @see Person
  */
-public class CustomerProfile {
+public class CustomerProfile implements Serializable {
     private String userName;
     private byte[] passwordHash;
 

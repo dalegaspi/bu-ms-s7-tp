@@ -4,6 +4,7 @@ import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 
 import javax.inject.Inject;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Map;
  *
  * @author dlegaspi@bu.edu
  */
-public class Warehouse {
+public class Warehouse implements Serializable {
 
     private Map<Item, Integer> availableItemQuantity;
 

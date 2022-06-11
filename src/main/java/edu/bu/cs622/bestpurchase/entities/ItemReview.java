@@ -1,11 +1,13 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
+
 /**
  * Item review
  *
  * @author dlegaspi@bu.edu
  */
-public class ItemReview {
+public class ItemReview implements Serializable {
     private Item item;
     private String url;
 

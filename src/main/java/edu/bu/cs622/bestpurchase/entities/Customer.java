@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * @author dlegaspi@bu.edu
  * @see Person
  */
-public class Customer extends Person {
+public class Customer extends Person implements Serializable {
     private CustomerProfile profile;
     private Store currentStoreLocation;
     private ShoppingCart cart;

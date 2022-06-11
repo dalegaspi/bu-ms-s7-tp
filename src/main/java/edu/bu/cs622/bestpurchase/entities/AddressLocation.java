@@ -1,11 +1,13 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
+
 /**
  * Address location
  *
  * @author dlegaspi@bu.edu
  */
-public class AddressLocation {
+public class AddressLocation implements Serializable {
     private IdType id;
     private String address;
     private String city;

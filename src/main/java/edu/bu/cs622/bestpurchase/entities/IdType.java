@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,7 +9,7 @@ import java.util.UUID;
  *
  * @author dlegaspi@bu.edu
  */
-public final class IdType {
+public final class IdType implements Serializable {
     private UUID id;
 
     public IdType() {

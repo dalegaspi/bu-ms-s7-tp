@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -7,12 +8,13 @@ import java.util.*;
  *
  * @author dlegaspi@bu.edu
  */
-public class ShoppingCart {
+public class ShoppingCart implements Serializable {
     private IdType id;
     private Map<Item, ItemCartStatus> items;
     private List<Employee> fulfillers;
 
     public ShoppingCart() {
+        id = new IdType();
         items = new HashMap<>();
         fulfillers = new ArrayList<>();
     }
