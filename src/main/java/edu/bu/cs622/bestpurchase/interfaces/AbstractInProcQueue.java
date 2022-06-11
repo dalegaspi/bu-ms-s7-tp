@@ -14,23 +14,20 @@ import java.io.ObjectOutputStream;
 
 public abstract class AbstractInProcQueue<T> {
 
-    private final String ADDRESS = "inproc://best-purchase-checkout-queue";
-
-    static protected ZContext context = new ZContext();
-
-    protected AbstractInProcQueue() {
-
+    private QueueContext queueContext;
+    protected AbstractInProcQueue(QueueContext context) {
+        queueContext = context;
     }
 
     protected ZMQ.Socket createReceiverSocket() {
-        var s = context.createSocket(SocketType.PAIR);
-        s.bind(ADDRESS);
+        var s = queueContext.getContext().createSocket(SocketType.PAIR);
+        s.bind(queueContext.getAddress());
         return s;
     }
 
     protected ZMQ.Socket createSenderSocket() {
-        var s = context.createSocket(SocketType.PAIR);
-        s.connect(ADDRESS);
+        var s = queueContext.getContext().createSocket(SocketType.PAIR);
+        s.connect(queueContext.getAddress());
         return s;
     }
 

@@ -9,6 +9,7 @@ import edu.bu.cs622.bestpurchase.controllers.RosieAppController;
 import edu.bu.cs622.bestpurchase.entities.Store;
 import edu.bu.cs622.bestpurchase.entities.Warehouse;
 import edu.bu.cs622.bestpurchase.interfaces.BasicCustomerDatabase;
+import edu.bu.cs622.bestpurchase.interfaces.BasicCustomerDatabase_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.BasicEmployeeDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.BasicEmployeeDatabase_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase;
@@ -17,6 +18,7 @@ import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
 import edu.bu.cs622.bestpurchase.interfaces.InProcCheckoutQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.InProcCheckoutQueueSender_Factory;
+import edu.bu.cs622.bestpurchase.interfaces.QueueContext;
 import javax.annotation.processing.Generated;
 import javax.inject.Provider;
 
@@ -53,11 +55,15 @@ public final class DaggerBestPurchaseFactory {
   private static final class BestPurchaseFactoryImpl implements BestPurchaseFactory {
     private final BestPurchaseFactoryImpl bestPurchaseFactoryImpl = this;
 
+    private Provider<QueueContext> getCartCheckoutQueueContextProvider;
+
     private Provider<InProcCheckoutQueueSender> inProcCheckoutQueueSenderProvider;
 
     private Provider<BasicItemDatabase> basicItemDatabaseProvider;
 
     private Provider<BasicEmployeeDatabase> basicEmployeeDatabaseProvider;
+
+    private Provider<BasicCustomerDatabase> basicCustomerDatabaseProvider;
 
     private BestPurchaseFactoryImpl() {
 
@@ -74,7 +80,7 @@ public final class DaggerBestPurchaseFactory {
     }
 
     private AstroAppController astroAppController() {
-      return new AstroAppController(basicStoreBusinessLayer(), new BasicCustomerDatabase());
+      return new AstroAppController(basicStoreBusinessLayer(), basicCustomerDatabaseProvider.get());
     }
 
     private RosieAppController rosieAppController() {
@@ -83,9 +89,11 @@ public final class DaggerBestPurchaseFactory {
 
     @SuppressWarnings("unchecked")
     private void initialize() {
-      this.inProcCheckoutQueueSenderProvider = DoubleCheck.provider(InProcCheckoutQueueSender_Factory.create());
+      this.getCartCheckoutQueueContextProvider = DoubleCheck.provider(AstroAppModule_GetCartCheckoutQueueContextFactory.create());
+      this.inProcCheckoutQueueSenderProvider = DoubleCheck.provider(InProcCheckoutQueueSender_Factory.create(getCartCheckoutQueueContextProvider));
       this.basicItemDatabaseProvider = DoubleCheck.provider(BasicItemDatabase_Factory.create());
       this.basicEmployeeDatabaseProvider = DoubleCheck.provider(BasicEmployeeDatabase_Factory.create());
+      this.basicCustomerDatabaseProvider = DoubleCheck.provider(BasicCustomerDatabase_Factory.create());
     }
 
     @Override

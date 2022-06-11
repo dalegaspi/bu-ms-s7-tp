@@ -11,13 +11,14 @@ class CheckoutQueueSenderTest {
 
     @Test
     void send() {
-        var sender = new InProcCheckoutQueueSender();
+        var ctx = new QueueContext();
+        var sender = new InProcCheckoutQueueSender(ctx);
         var cart = new ShoppingCart();
 
         var r1 = sender.send(cart);
         assertTrue(r1.isRight() && r1.get());
 
-        var receiver = new InProcCheckoutQueueReceiver();
+        var receiver = new InProcCartCheckoutQueueReceiver(ctx);
         Either<CheckoutException, ShoppingCart> r2 = receiver.receive();
         ShoppingCart cc = r2.get();
         assertTrue(r2.isRight() && r2.get().getId().equals(cart.getId()));

@@ -2,11 +2,15 @@ package edu.bu.cs622.bestpurchase;
 
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 import edu.bu.cs622.bestpurchase.controllers.BasicStoreBusinessLayer;
 import edu.bu.cs622.bestpurchase.controllers.BasicWarehouseInventory;
 import edu.bu.cs622.bestpurchase.controllers.StoreBusinessLayer;
 import edu.bu.cs622.bestpurchase.controllers.WarehouseInventory;
+import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
 import edu.bu.cs622.bestpurchase.interfaces.*;
+
+import javax.inject.Singleton;
 
 /**
  * Our IOC factory
@@ -43,6 +47,17 @@ public abstract class AstroAppModule {
     @Binds
     abstract ItemDatabase getItemDatabase(BasicItemDatabase itemDatabase);
 
+    @Provides
+    @Singleton
+    //@Named("CART")
+    static QueueContext getCartCheckoutQueueContext() {
+        return new QueueContext();
+    }
+
+
     @Binds
-    abstract CheckoutQueueSender getCheckoutQueue(InProcCheckoutQueueSender checkoutQueue);
+    abstract CartCheckoutQueueSender getCheckoutQueueSender(InProcCheckoutQueueSender checkoutQueue);
+
+    @Binds
+    abstract CartCheckoutQueueReceiver getCheckoutQueueReceiver(InProcCartCheckoutQueueReceiver checkoutQueue);
 }
