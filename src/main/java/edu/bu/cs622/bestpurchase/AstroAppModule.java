@@ -56,7 +56,7 @@ public abstract class AstroAppModule {
 
 
     @Binds
-    abstract CartCheckoutQueueSender getCheckoutQueueSender(InProcCheckoutQueueSender checkoutQueue);
+    abstract CartCheckoutQueueSender getCheckoutQueueSender(InProcCartCheckoutQueueSender checkoutQueue);
 
     @Binds
     abstract CartCheckoutQueueReceiver getCheckoutQueueReceiver(InProcCartCheckoutQueueReceiver checkoutQueue);

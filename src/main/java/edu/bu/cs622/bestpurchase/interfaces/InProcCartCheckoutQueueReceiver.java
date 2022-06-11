@@ -14,7 +14,7 @@ import javax.inject.Singleton;
  * @author dlegaspi@bu.edu
  */
 @Singleton
-public class InProcCartCheckoutQueueReceiver extends AbstractInProcQueue<ShoppingCart> implements CartCheckoutQueueReceiver<ShoppingCart> {
+public class InProcCartCheckoutQueueReceiver extends AbstractInProcQueue<ShoppingCart> implements CartCheckoutQueueReceiver {
 
     private ZMQ.Socket conn;
 

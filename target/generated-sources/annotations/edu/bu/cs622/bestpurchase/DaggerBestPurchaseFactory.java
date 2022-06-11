@@ -16,8 +16,8 @@ import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
-import edu.bu.cs622.bestpurchase.interfaces.InProcCheckoutQueueSender;
-import edu.bu.cs622.bestpurchase.interfaces.InProcCheckoutQueueSender_Factory;
+import edu.bu.cs622.bestpurchase.interfaces.InProcCartCheckoutQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.InProcCartCheckoutQueueSender_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.QueueContext;
 import javax.annotation.processing.Generated;
 import javax.inject.Provider;
@@ -57,7 +57,7 @@ public final class DaggerBestPurchaseFactory {
 
     private Provider<QueueContext> getCartCheckoutQueueContextProvider;
 
-    private Provider<InProcCheckoutQueueSender> inProcCheckoutQueueSenderProvider;
+    private Provider<InProcCartCheckoutQueueSender> inProcCartCheckoutQueueSenderProvider;
 
     private Provider<BasicItemDatabase> basicItemDatabaseProvider;
 
@@ -72,7 +72,7 @@ public final class DaggerBestPurchaseFactory {
     }
 
     private BasicWarehouseInventory basicWarehouseInventory() {
-      return new BasicWarehouseInventory(new Warehouse(), inProcCheckoutQueueSenderProvider.get(), basicItemDatabaseProvider.get(), basicEmployeeDatabaseProvider.get());
+      return new BasicWarehouseInventory(new Warehouse(), inProcCartCheckoutQueueSenderProvider.get(), basicItemDatabaseProvider.get(), basicEmployeeDatabaseProvider.get());
     }
 
     private BasicStoreBusinessLayer basicStoreBusinessLayer() {
@@ -90,7 +90,7 @@ public final class DaggerBestPurchaseFactory {
     @SuppressWarnings("unchecked")
     private void initialize() {
       this.getCartCheckoutQueueContextProvider = DoubleCheck.provider(AstroAppModule_GetCartCheckoutQueueContextFactory.create());
-      this.inProcCheckoutQueueSenderProvider = DoubleCheck.provider(InProcCheckoutQueueSender_Factory.create(getCartCheckoutQueueContextProvider));
+      this.inProcCartCheckoutQueueSenderProvider = DoubleCheck.provider(InProcCartCheckoutQueueSender_Factory.create(getCartCheckoutQueueContextProvider));
       this.basicItemDatabaseProvider = DoubleCheck.provider(BasicItemDatabase_Factory.create());
       this.basicEmployeeDatabaseProvider = DoubleCheck.provider(BasicEmployeeDatabase_Factory.create());
       this.basicCustomerDatabaseProvider = DoubleCheck.provider(BasicCustomerDatabase_Factory.create());

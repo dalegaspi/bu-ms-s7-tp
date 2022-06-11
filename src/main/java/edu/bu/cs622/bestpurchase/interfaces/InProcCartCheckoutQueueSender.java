@@ -14,12 +14,12 @@ import javax.inject.Singleton;
  * @author dlegaspi@bu.edu
  */
 @Singleton
-public class InProcCheckoutQueueSender extends AbstractInProcQueue<ShoppingCart> implements CartCheckoutQueueSender<ShoppingCart> {
+public class InProcCartCheckoutQueueSender extends AbstractInProcQueue<ShoppingCart> implements CartCheckoutQueueSender {
 
     private ZMQ.Socket conn;
 
     @Inject
-    public InProcCheckoutQueueSender(QueueContext context) {
+    public InProcCartCheckoutQueueSender(QueueContext context) {
         super(context);
         conn = createSenderSocket();
     }

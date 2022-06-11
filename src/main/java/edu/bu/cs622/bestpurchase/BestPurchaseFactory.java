@@ -2,6 +2,7 @@ package edu.bu.cs622.bestpurchase;
 
 import dagger.Component;
 
+
 import javax.inject.Singleton;
 
 /**
@@ -16,4 +17,6 @@ public interface BestPurchaseFactory {
     Astro buildAstro();
 
     Rosie buildRosie();
+
+    //CartCheckoutQueueSender<ShoppingCart> buildCartCheckoutQueue();
 }
