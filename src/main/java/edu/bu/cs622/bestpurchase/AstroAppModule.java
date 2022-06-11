@@ -33,7 +33,7 @@ public abstract class AstroAppModule {
     abstract Recommender getRecommender(BasicRecommender recommender);
 
     @Binds
-    abstract Camera getCamera(BasicCamera camera);
+    abstract Camera getCamera(BasicCameraSimulator camera);
 
     @Binds
     abstract QRItemLookup getQRItemLookup(BasicQRItemLookup qrItemLookup);

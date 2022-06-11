@@ -1,8 +1,12 @@
 package edu.bu.cs622.bestpurchase.entities;
 
+import com.github.dhiraj072.randomwordgenerator.RandomWordGenerator;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.github.dhiraj072.randomwordgenerator.RandomWordGenerator.getRandomWord;
 
 /**
  * Id type
@@ -11,9 +15,20 @@ import java.util.UUID;
  */
 public final class IdType implements Serializable {
     private UUID id;
+    private String ez2r;
+
+    public IdType(UUID uuid, String ez2r) {
+        this.id = uuid;
+        this.ez2r = ez2r;
+    }
+
+
+    public IdType(String ez2r) {
+        this(UUID.randomUUID(), ez2r);
+    }
 
     public IdType() {
-        this.id = UUID.randomUUID();
+        this(UUID.randomUUID(), getRandomWord());
     }
 
     @Override
@@ -34,5 +49,9 @@ public final class IdType implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public String getEasyToRememberId() {
+        return ez2r;
     }
 }
