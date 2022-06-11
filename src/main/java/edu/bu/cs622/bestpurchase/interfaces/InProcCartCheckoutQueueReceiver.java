@@ -6,6 +6,7 @@ import io.vavr.control.Either;
 import org.zeromq.ZMQ;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 /**
@@ -19,7 +20,7 @@ public class InProcCartCheckoutQueueReceiver extends AbstractInProcQueue<Shoppin
     private ZMQ.Socket conn;
 
     @Inject
-    public InProcCartCheckoutQueueReceiver(QueueContext queueContext) {
+    public InProcCartCheckoutQueueReceiver(@Named("CART") QueueContext queueContext) {
         super(queueContext);
         conn = createReceiverSocket();
     }

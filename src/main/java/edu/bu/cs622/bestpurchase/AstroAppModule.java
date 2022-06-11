@@ -10,6 +10,7 @@ import edu.bu.cs622.bestpurchase.controllers.WarehouseInventory;
 import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
 import edu.bu.cs622.bestpurchase.interfaces.*;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 /**
@@ -49,7 +50,7 @@ public abstract class AstroAppModule {
 
     @Provides
     @Singleton
-    //@Named("CART")
+    @Named("CART")
     static QueueContext getCartCheckoutQueueContext() {
         return new QueueContext();
     }

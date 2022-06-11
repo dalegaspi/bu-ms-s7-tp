@@ -1,6 +1,9 @@
 package edu.bu.cs622.bestpurchase;
 
 import dagger.Component;
+import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
+import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueSender;
 
 
 import javax.inject.Singleton;
@@ -18,5 +21,7 @@ public interface BestPurchaseFactory {
 
     Rosie buildRosie();
 
-    //CartCheckoutQueueSender<ShoppingCart> buildCartCheckoutQueue();
+    CartCheckoutQueueSender buildCartCheckoutQueueSender();
+
+    CartCheckoutQueueReceiver buildCartCheckoutQueueReceiver();
 }

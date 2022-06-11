@@ -16,6 +16,10 @@ import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.BasicItemDatabase_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.BasicReviewsAPI;
+import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.InProcCartCheckoutQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.InProcCartCheckoutQueueReceiver_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.InProcCartCheckoutQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.InProcCartCheckoutQueueSender_Factory;
 import edu.bu.cs622.bestpurchase.interfaces.QueueContext;
@@ -65,6 +69,8 @@ public final class DaggerBestPurchaseFactory {
 
     private Provider<BasicCustomerDatabase> basicCustomerDatabaseProvider;
 
+    private Provider<InProcCartCheckoutQueueReceiver> inProcCartCheckoutQueueReceiverProvider;
+
     private BestPurchaseFactoryImpl() {
 
       initialize();
@@ -94,6 +100,7 @@ public final class DaggerBestPurchaseFactory {
       this.basicItemDatabaseProvider = DoubleCheck.provider(BasicItemDatabase_Factory.create());
       this.basicEmployeeDatabaseProvider = DoubleCheck.provider(BasicEmployeeDatabase_Factory.create());
       this.basicCustomerDatabaseProvider = DoubleCheck.provider(BasicCustomerDatabase_Factory.create());
+      this.inProcCartCheckoutQueueReceiverProvider = DoubleCheck.provider(InProcCartCheckoutQueueReceiver_Factory.create(getCartCheckoutQueueContextProvider));
     }
 
     @Override
@@ -104,6 +111,16 @@ public final class DaggerBestPurchaseFactory {
     @Override
     public Rosie buildRosie() {
       return new Rosie(rosieAppController());
+    }
+
+    @Override
+    public CartCheckoutQueueSender buildCartCheckoutQueueSender() {
+      return inProcCartCheckoutQueueSenderProvider.get();
+    }
+
+    @Override
+    public CartCheckoutQueueReceiver buildCartCheckoutQueueReceiver() {
+      return inProcCartCheckoutQueueReceiverProvider.get();
     }
   }
 }
