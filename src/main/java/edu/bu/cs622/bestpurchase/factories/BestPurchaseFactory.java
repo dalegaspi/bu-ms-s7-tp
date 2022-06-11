@@ -1,10 +1,10 @@
 package edu.bu.cs622.bestpurchase.factories;
 
 import dagger.Component;
-import edu.bu.cs622.bestpurchase.interfaces.queues.AddItemToCartQueueReceiver;
-import edu.bu.cs622.bestpurchase.interfaces.queues.AddItemToCartQueueSender;
-import edu.bu.cs622.bestpurchase.interfaces.queues.CartCheckoutQueueReceiver;
-import edu.bu.cs622.bestpurchase.interfaces.queues.CartCheckoutQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.AddItemToCartQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.queues.senders.AddItemToCartQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.CartCheckoutQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.queues.senders.CartCheckoutQueueSender;
 import edu.bu.cs622.bestpurchase.views.Astro;
 import edu.bu.cs622.bestpurchase.views.Rosie;
 

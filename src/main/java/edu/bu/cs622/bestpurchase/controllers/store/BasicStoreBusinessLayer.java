@@ -7,8 +7,8 @@ import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.entities.store.Store;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.databases.EmployeeDatabase;
-import edu.bu.cs622.bestpurchase.interfaces.queues.AddItemToCartQueueSender;
-import edu.bu.cs622.bestpurchase.interfaces.queues.CartCheckoutQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.queues.senders.AddItemToCartQueueSender;
+import edu.bu.cs622.bestpurchase.interfaces.queues.senders.CartCheckoutQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.RecommendedItems;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.Recommender;
@@ -84,5 +84,29 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     @Override
     public Either<BestPurchaseAppException, BigDecimal> computeCartTotals(ShoppingCart cart) {
         return Either.right(new BigDecimal(0));
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public WarehouseInventory getWarehouseInventory() {
+        return warehouseInventory;
+    }
+
+    public ReviewsAPI getReviewsAPI() {
+        return reviewsAPI;
+    }
+
+    public CartCheckoutQueueSender getCheckoutQueueSender() {
+        return checkoutQueueSender;
+    }
+
+    public void setCheckoutQueueSender(CartCheckoutQueueSender checkoutQueueSender) {
+        this.checkoutQueueSender = checkoutQueueSender;
+    }
+
+    public AddItemToCartQueueSender getAddItemToCartQueueSender() {
+        return addItemToCartQueueSender;
     }
 }

@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.interfaces.queues;
+package edu.bu.cs622.bestpurchase.interfaces.queues.senders;
 
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;

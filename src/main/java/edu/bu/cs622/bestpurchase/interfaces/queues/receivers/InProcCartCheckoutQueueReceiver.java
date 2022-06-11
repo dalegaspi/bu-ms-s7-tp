@@ -1,7 +1,9 @@
-package edu.bu.cs622.bestpurchase.interfaces.queues;
+package edu.bu.cs622.bestpurchase.interfaces.queues.receivers;
 
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
+import edu.bu.cs622.bestpurchase.interfaces.queues.AbstractInProcQueue;
+import edu.bu.cs622.bestpurchase.interfaces.queues.InProcQueueContext;
 import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

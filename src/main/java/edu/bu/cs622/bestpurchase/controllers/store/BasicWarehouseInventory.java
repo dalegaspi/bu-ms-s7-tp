@@ -5,8 +5,8 @@ import edu.bu.cs622.bestpurchase.entities.store.Warehouse;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.databases.EmployeeDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.databases.ItemDatabase;
-import edu.bu.cs622.bestpurchase.interfaces.queues.AddItemToCartQueueReceiver;
-import edu.bu.cs622.bestpurchase.interfaces.queues.CartCheckoutQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.AddItemToCartQueueReceiver;
+import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.CartCheckoutQueueReceiver;
 import io.vavr.control.Either;
 
 import javax.inject.Inject;

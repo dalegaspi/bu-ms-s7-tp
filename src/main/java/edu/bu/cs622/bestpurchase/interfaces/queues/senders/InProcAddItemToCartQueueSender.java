@@ -1,8 +1,10 @@
-package edu.bu.cs622.bestpurchase.interfaces.queues;
+package edu.bu.cs622.bestpurchase.interfaces.queues.senders;
 
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
+import edu.bu.cs622.bestpurchase.interfaces.queues.AbstractInProcQueue;
+import edu.bu.cs622.bestpurchase.interfaces.queues.InProcQueueContext;
 import io.vavr.Tuple2;
 import io.vavr.control.Either;
 import org.zeromq.ZMQ;

@@ -1,7 +1,8 @@
-package edu.bu.cs622.bestpurchase.interfaces.queues;
+package edu.bu.cs622.bestpurchase.interfaces.queues.receivers;
 
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
+import edu.bu.cs622.bestpurchase.interfaces.queues.QueueReceiver;
 import io.vavr.Tuple2;
 
 public interface AddItemToCartQueueReceiver extends QueueReceiver<Tuple2<Item, ShoppingCart>> {
