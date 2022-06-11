@@ -3,6 +3,8 @@ package edu.bu.cs622.bestpurchase.interfaces;
 import edu.bu.cs622.bestpurchase.entities.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
 
 import javax.inject.Inject;
@@ -16,12 +18,14 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class InProcCartCheckoutQueueSender extends AbstractInProcQueue<ShoppingCart> implements CartCheckoutQueueSender {
+    private static Logger logger = LoggerFactory.getLogger(InProcCartCheckoutQueueSender.class);
 
     private ZMQ.Socket conn;
 
     @Inject
-    public InProcCartCheckoutQueueSender(@Named("CART") QueueContext context) {
-        super(context);
+    public InProcCartCheckoutQueueSender(@Named("CART") InProcQueueContext queueContext) {
+        super(queueContext);
+        logger.debug("Context address: {}", queueContext.getAddress());
         conn = createSenderSocket();
     }
 

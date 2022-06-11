@@ -9,7 +9,7 @@ class AbstractInProcQueueTest {
 
     @Test
     void testSimpleBinarySerialization() {
-        var ctx = new QueueContext();
+        var ctx = new InProcQueueContext();
         var q = new AbstractInProcQueue<String>(ctx) {};
 
         var bytes = q.serialize("hello");
@@ -21,7 +21,7 @@ class AbstractInProcQueueTest {
 
     @Test
     void testComplexBinarySerialization() {
-        var ctx = new QueueContext();
+        var ctx = new InProcQueueContext();
         var q = new AbstractInProcQueue<ShoppingCart>(ctx) {};
 
         var bytes = q.serialize(new ShoppingCart());

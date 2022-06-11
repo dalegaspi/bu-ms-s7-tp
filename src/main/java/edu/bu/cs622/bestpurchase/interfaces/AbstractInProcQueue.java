@@ -4,7 +4,6 @@ import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import org.zeromq.SocketType;
-import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
 import java.io.ByteArrayInputStream;
@@ -14,8 +13,8 @@ import java.io.ObjectOutputStream;
 
 public abstract class AbstractInProcQueue<T> {
 
-    private QueueContext queueContext;
-    protected AbstractInProcQueue(QueueContext context) {
+    private InProcQueueContext queueContext;
+    protected AbstractInProcQueue(InProcQueueContext context) {
         queueContext = context;
     }
 

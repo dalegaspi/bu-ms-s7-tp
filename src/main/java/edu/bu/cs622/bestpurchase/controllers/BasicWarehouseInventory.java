@@ -3,6 +3,7 @@ package edu.bu.cs622.bestpurchase.controllers;
 import edu.bu.cs622.bestpurchase.entities.Item;
 import edu.bu.cs622.bestpurchase.entities.Warehouse;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
+import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueReceiver;
 import edu.bu.cs622.bestpurchase.interfaces.CartCheckoutQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.EmployeeDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.ItemDatabase;
@@ -22,17 +23,17 @@ public class BasicWarehouseInventory implements WarehouseInventory {
 
     private ItemDatabase itemDatabase;
 
-    private CartCheckoutQueueSender checkoutQueue;
+    private CartCheckoutQueueReceiver checkoutQueueReceiver;
 
     @Inject
     public BasicWarehouseInventory(Warehouse warehouse,
-                                   CartCheckoutQueueSender checkoutQueue,
+                                   CartCheckoutQueueReceiver checkoutQueueReceiver,
                                    ItemDatabase itemDatabase,
                                    EmployeeDatabase employeeDatabase) {
         this.warehouse = warehouse;
         this.employeeDatabase = employeeDatabase;
         this.itemDatabase = itemDatabase;
-        this.checkoutQueue = checkoutQueue;
+        this.checkoutQueueReceiver = checkoutQueueReceiver;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class BasicWarehouseInventory implements WarehouseInventory {
     }
 
     @Override
-    public CartCheckoutQueueSender getCheckoutQueue() {
-        return this.checkoutQueue;
+    public CartCheckoutQueueReceiver getCheckoutQueueReceiver() {
+        return this.checkoutQueueReceiver;
     }
 }
