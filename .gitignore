@@ -58,3 +58,7 @@ submit/
 target/
 
 sample/import-test*
+target/generated-sources/annotations/edu/bu/cs622/bestpurchase/DaggerBestPurchaseFactory.java
+target/maven-archiver/pom.properties
+target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
