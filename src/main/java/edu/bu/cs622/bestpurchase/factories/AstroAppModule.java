@@ -3,6 +3,8 @@ package edu.bu.cs622.bestpurchase.factories;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import edu.bu.cs622.bestpurchase.config.AppConfig;
+import edu.bu.cs622.bestpurchase.config.SimpleAppConfig;
 import edu.bu.cs622.bestpurchase.controllers.store.BasicStoreBusinessLayer;
 import edu.bu.cs622.bestpurchase.controllers.store.BasicWarehouseInventory;
 import edu.bu.cs622.bestpurchase.controllers.store.StoreBusinessLayer;
@@ -89,4 +91,7 @@ public abstract class AstroAppModule {
 
     @Binds
     abstract CartCheckoutQueueReceiver getCheckoutQueueReceiver(InProcCartCheckoutQueueReceiver checkoutQueue);
+
+    @Binds
+    abstract AppConfig getAppConfig(SimpleAppConfig appConfig);
 }

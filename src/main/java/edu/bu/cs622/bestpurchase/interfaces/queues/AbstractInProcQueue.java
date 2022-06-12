@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces.queues;
 
+import edu.bu.cs622.bestpurchase.config.AppConfig;
 import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
@@ -14,9 +15,11 @@ import java.io.ObjectOutputStream;
 public abstract class AbstractInProcQueue<T> {
 
     private InProcQueueContext queueContext;
+    private AppConfig appConfig;
 
-    protected AbstractInProcQueue(InProcQueueContext context) {
-        queueContext = context;
+    protected AbstractInProcQueue(InProcQueueContext context, AppConfig appConfig) {
+        this.queueContext = context;
+        this.appConfig = appConfig;
     }
 
     protected ZMQ.Socket createReceiverSocket() {
@@ -28,6 +31,7 @@ public abstract class AbstractInProcQueue<T> {
     protected ZMQ.Socket createSenderSocket() {
         var s = queueContext.getContext().createSocket(SocketType.PAIR);
         s.connect(queueContext.getAddress());
+        s.setReceiveTimeOut((int) appConfig.getWaitTimeoutMillis());
         return s;
     }
 

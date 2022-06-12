@@ -44,6 +44,15 @@ public class Customer extends Person implements Serializable {
         return cart;
     }
 
+    public boolean hasShoppingCart() {
+        return cart != null;
+    }
+
+    public ShoppingCart removeCart() {
+        var cart = this.cart;
+        this.cart = null;
+        return cart;
+    }
     public void setCart(ShoppingCart cart) {
         this.cart = cart;
     }

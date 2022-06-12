@@ -1,6 +1,7 @@
 package edu.bu.cs622.bestpurchase.entities.store;
 
 import edu.bu.cs622.bestpurchase.entities.locations.AddressLocation;
+import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.persons.Employee;
 
 import javax.inject.Inject;
@@ -21,7 +22,7 @@ public class Store implements Serializable {
     private Warehouse warehouse;
     private AddressLocation location;
     private List<Employee> employees;
-    private List<Employee> activeShoppers;
+    private List<Customer> activeShoppers;
 
     public Warehouse getWarehouse() {
         return warehouse;
@@ -47,11 +48,11 @@ public class Store implements Serializable {
         this.employees = employees;
     }
 
-    public List<Employee> getActiveShoppers() {
+    public List<Customer> getActiveShoppers() {
         return activeShoppers;
     }
 
-    public void setActiveShoppers(List<Employee> activeShoppers) {
+    public void setActiveShoppers(List<Customer> activeShoppers) {
         this.activeShoppers = activeShoppers;
     }
 }

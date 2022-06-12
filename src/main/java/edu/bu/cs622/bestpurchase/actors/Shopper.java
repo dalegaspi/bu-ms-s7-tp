@@ -20,10 +20,26 @@ public class Shopper extends SimulatedActor {
     @Override
     void doSomething() {
         Try.run(()-> {
-            for (int i = 0; i < 10; i++) {
-                logger.debug("Shopping...");
-                Thread.sleep(1000);
-            }
+           var controller = astro.getAppController();
+
+           var customer = controller.authenticate("pedro", "12345");
+           pause();
+
+           var item = controller.scanWithCamera().toJavaOptional();
+           logger.debug("Scanned item identified? {}", item.isPresent());
+           pause();
+
+           item.ifPresent(i -> {
+               var details = controller.getStoreBusinessLayer().getItemDetails(i);
+               details.map(d -> {
+                   logger.info("Item details: {}", d);
+                   return d;
+               });
+
+
+
+           });
+
         });
     }
 }

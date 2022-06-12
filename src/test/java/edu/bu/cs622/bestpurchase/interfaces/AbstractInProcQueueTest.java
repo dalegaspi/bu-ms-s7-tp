@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
+import edu.bu.cs622.bestpurchase.config.SimpleAppConfig;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.interfaces.queues.AbstractInProcQueue;
 import edu.bu.cs622.bestpurchase.interfaces.queues.InProcQueueContext;
@@ -12,7 +13,7 @@ class AbstractInProcQueueTest {
     @Test
     void testSimpleBinarySerialization() {
         var ctx = new InProcQueueContext();
-        var q = new AbstractInProcQueue<String>(ctx) {
+        var q = new AbstractInProcQueue<String>(ctx, new SimpleAppConfig()) {
         };
 
         var bytes = q.serialize("hello");
@@ -25,7 +26,7 @@ class AbstractInProcQueueTest {
     @Test
     void testComplexBinarySerialization() {
         var ctx = new InProcQueueContext();
-        var q = new AbstractInProcQueue<ShoppingCart>(ctx) {
+        var q = new AbstractInProcQueue<ShoppingCart>(ctx, new SimpleAppConfig()) {
         };
 
         var bytes = q.serialize(new ShoppingCart());

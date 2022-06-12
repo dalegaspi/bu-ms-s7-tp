@@ -45,6 +45,8 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     private AddItemToCartQueueSender addItemToCartQueueSender;
 
+
+
     @Inject
     public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory,
                     EmployeeDatabase employeeDatabase,
@@ -63,9 +65,28 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
         this.addItemToCartQueueSender = addItemToCartQueueSender;
     }
 
+    private ShoppingCart createShoppingCart() {
+        return new ShoppingCart();
+    }
+
+    @Override
+    public ShoppingCart getShoppingCartFor(Customer customer) {
+        store.getActiveShoppers().add(customer);
+        if (!customer.hasShoppingCart()) {
+            var cart = createShoppingCart();
+            customer.setCart(cart);
+        }
+
+        return customer.getCart();
+    }
+
     @Override
     public Either<BestPurchaseAppException, Item> lookupByItemId(IdType id) {
-        return null;
+        var item = new Item();
+        item.setId(id);
+        item.setDescription("Hotdog Multiplexer");
+        item.setPrice(new BigDecimal("1.99"));
+        return Either.right(item);
     }
 
     @Override

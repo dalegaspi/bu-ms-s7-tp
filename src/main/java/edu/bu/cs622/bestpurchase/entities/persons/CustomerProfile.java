@@ -16,6 +16,7 @@ import java.util.Arrays;
  * @see Person
  */
 public class CustomerProfile implements Serializable {
+
     private String userName;
     private byte[] passwordHash;
 
@@ -28,6 +29,7 @@ public class CustomerProfile implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
 
     public Either<BestPurchaseAppException, Boolean> authenticate(String password) {
         return createHash(password).map(hash -> Arrays.equals(passwordHash, hash));
@@ -44,6 +46,7 @@ public class CustomerProfile implements Serializable {
     }
 
     public Either<BestPurchaseAppException, Void> setCredentials(String username, String password) {
+        this.setUserName(username);
         return createHash(password).map(hash -> {
             this.passwordHash = hash;
             return null;

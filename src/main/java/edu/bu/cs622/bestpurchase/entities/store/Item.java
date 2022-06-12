@@ -23,6 +23,10 @@ public class Item implements Serializable {
         return id;
     }
 
+    public void setId(IdType id) {
+        this.id = id;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -56,7 +60,7 @@ public class Item implements Serializable {
     }
 
     public String getDetails() {
-        return toString();
+        return getDescription() + " @ " + getPrice();
     }
 
     @Override
@@ -74,4 +78,6 @@ public class Item implements Serializable {
     public int hashCode() {
         return Objects.hash(id, description);
     }
+
+
 }

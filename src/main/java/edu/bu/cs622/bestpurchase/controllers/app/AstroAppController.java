@@ -6,6 +6,8 @@ import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.databases.CustomerDatabase;
+import edu.bu.cs622.bestpurchase.interfaces.hardware.Camera;
+import edu.bu.cs622.bestpurchase.interfaces.qrcode.QRItemLookup;
 import io.vavr.control.Either;
 
 import javax.inject.Inject;
@@ -20,11 +22,25 @@ public class AstroAppController {
     private final StoreBusinessLayer storeBusinessLayer;
     private final CustomerDatabase customerDatabase;
 
+    private final Camera camera;
+
+    private final QRItemLookup qrItemLookup;
+
     @Inject
     public AstroAppController(StoreBusinessLayer storeBusinessLayer,
+                    Camera camera,
+                    QRItemLookup qrItemLookup,
                     CustomerDatabase customerDatabase) {
         this.storeBusinessLayer = storeBusinessLayer;
         this.customerDatabase = customerDatabase;
+        this.camera = camera;
+        this.qrItemLookup = qrItemLookup;
+    }
+
+    public Either<BestPurchaseAppException, Item> scanWithCamera() {
+        var qrCodeImage = camera.scan();
+        return qrCodeImage.flatMap(qrItemLookup::convertQRCodeToItemId)
+                .flatMap(storeBusinessLayer::lookupByItemId);
     }
 
     public Either<BestPurchaseAppException, Optional<Customer>> authenticate(String username, String password) {

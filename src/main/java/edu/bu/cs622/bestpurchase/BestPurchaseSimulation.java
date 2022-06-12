@@ -25,5 +25,7 @@ public class BestPurchaseSimulation {
         var f1 = shopper.start();
         var f2 = worker.start();
         CompletableFuture.allOf(f1, f2).join();
+
+        logger.debug("Done.");
     }
 }

@@ -15,6 +15,7 @@ public abstract class Person implements Serializable {
     private String lastName;
 
     public Person(String firstName, String lastName) {
+        this.id = new IdType();
         this.firstName = firstName;
         this.lastName = lastName;
     }

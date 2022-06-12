@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces.queues.receivers;
 
+import edu.bu.cs622.bestpurchase.config.AppConfig;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.CheckoutException;
 import edu.bu.cs622.bestpurchase.interfaces.queues.AbstractInProcQueue;
@@ -27,8 +28,8 @@ public class InProcCartCheckoutQueueReceiver extends AbstractInProcQueue<Shoppin
     private ZMQ.Socket conn;
 
     @Inject
-    public InProcCartCheckoutQueueReceiver(@Named("CART") InProcQueueContext queueContext) {
-        super(queueContext);
+    public InProcCartCheckoutQueueReceiver(@Named("CART") InProcQueueContext queueContext, AppConfig appConfig) {
+        super(queueContext, appConfig);
         logger.debug("Context address: {}", queueContext.getAddress());
         conn = createReceiverSocket();
     }

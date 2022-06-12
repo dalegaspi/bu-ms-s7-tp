@@ -17,6 +17,7 @@ import java.math.BigDecimal;
  * @author dlegaspi@bu.edu
  */
 public interface StoreBusinessLayer {
+    ShoppingCart getShoppingCartFor(Customer customer);
     Either<BestPurchaseAppException, Item> lookupByItemId(IdType id);
 
     Either<BestPurchaseAppException, String> getItemDetails(Item item);

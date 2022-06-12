@@ -2,6 +2,7 @@ package edu.bu.cs622.bestpurchase.interfaces.databases;
 
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.ids.IdType;
+import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 
@@ -15,6 +16,14 @@ public class BasicCustomerDatabase extends AbstractBasicDatabase<IdType, Custome
     @Inject
     public BasicCustomerDatabase() {
         super();
+
+        // set up the user db
+        Customer c = new Customer("Pedro", "Sanchez");
+        CustomerProfile p = new CustomerProfile();
+        p.setCredentials("pedro", "12345");
+        c.setProfile(p);
+
+        data.put(new IdType(), c);
     }
 
     IdType getPrimaryKey(Customer entity) {

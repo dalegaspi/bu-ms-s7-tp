@@ -1,10 +1,13 @@
 package edu.bu.cs622.bestpurchase.entities.ids;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 import static com.github.dhiraj072.randomwordgenerator.RandomWordGenerator.getRandomWord;
+
 
 /**
  * Id type
@@ -23,6 +26,12 @@ public final class IdType implements Serializable {
     public IdType(String ez2r) {
         this(UUID.randomUUID(), ez2r);
     }
+
+    //private static List<String> words = List.of("bread", "robot", "cat", "jam");
+    //private static Random random = new Random();
+    //private static String getRandomWord() {
+    //    return words.get(random.nextInt(words.size()));
+    //}
 
     public IdType() {
         this(UUID.randomUUID(), getRandomWord());
