@@ -14,6 +14,7 @@ import edu.bu.cs622.bestpurchase.interfaces.recommenders.RecommendedItems;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.Recommender;
 import edu.bu.cs622.bestpurchase.interfaces.reviews.BasicReviewsAPI;
 import edu.bu.cs622.bestpurchase.interfaces.reviews.ReviewsAPI;
+import io.vavr.Tuple;
 import io.vavr.control.Either;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +107,17 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     @Override
     public Either<BestPurchaseAppException, BigDecimal> computeCartTotals(ShoppingCart cart) {
         return Either.right(new BigDecimal(0));
+    }
+
+    @Override
+    public Either<BestPurchaseAppException, ShoppingCart> addItemToCart(ShoppingCart cart, Item item, int quantity) {
+        cart.addItemToCart(item, quantity);
+        return addItemToCartQueueSender.send(Tuple.of(item, cart))
+                .mapLeft(t -> (BestPurchaseAppException) t)
+                .map(b -> {
+                    logger.debug("Item [{}] added to cart notification sent to warehouse", item.getDescription());
+                    return cart;
+                });
     }
 
     public Store getStore() {

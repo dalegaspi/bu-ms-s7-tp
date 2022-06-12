@@ -53,8 +53,7 @@ public class AstroAppController {
     public Either<BestPurchaseAppException, ShoppingCart> addItemToCart(final ShoppingCart cart,
                     final Item item,
                     final int quantity) {
-        cart.addItemToCart(item, quantity);
-        return Either.right(cart);
+        return getStoreBusinessLayer().addItemToCart(cart, item, quantity);
     }
 
     public StoreBusinessLayer getStoreBusinessLayer() {

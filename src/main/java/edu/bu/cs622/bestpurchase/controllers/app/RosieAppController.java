@@ -12,4 +12,8 @@ public class RosieAppController {
     public RosieAppController(WarehouseInventory warehouseInventory) {
         this.warehouseInventory = warehouseInventory;
     }
+
+    public WarehouseInventory getWarehouseInventory() {
+        return warehouseInventory;
+    }
 }

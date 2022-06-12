@@ -1,6 +1,7 @@
 package edu.bu.cs622.bestpurchase.actors;
 
 import edu.bu.cs622.bestpurchase.views.Astro;
+import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +41,12 @@ public class Shopper extends SimulatedActor {
                 });
 
                 cart.map(mc -> {
-                    mc.ifPresent(c -> controller.addItemToCart(c, i, 1));
-                    logger.info("Added item to cart.");
-                    return mc;
+                    mc.ifPresent(c -> {
+                        controller.addItemToCart(c, i, 1);
+                        logger.info("Added item to cart [{}].", c.getId().getEasyToRememberId());
+                    });
+
+                    return null;
                 });
             });
         });

@@ -1,6 +1,7 @@
 package edu.bu.cs622.bestpurchase.actors;
 
 import edu.bu.cs622.bestpurchase.views.Rosie;
+import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,15 @@ public class WarehouseWorker extends SimulatedActor {
     @Override
     void doSomething() {
         Try.run(()-> {
-            for (int i = 0; i < 10; i++) {
-                logger.debug("Working...");
-                Thread.sleep(1000);
-            }
+            logger.debug("Working...");
+
+            rosie.getAppController()
+                    .getWarehouseInventory()
+                    .getAddItemToCartQueueReceiver()
+                    .receive().map(t -> {
+                        logger.info("Item [{}] added to cart with id [{}]", t._1.getDescription(), t._2.getId().getEasyToRememberId());
+                        return Option.none();
+                    });
         });
     }
 }

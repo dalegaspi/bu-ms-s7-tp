@@ -12,4 +12,8 @@ public class Rosie {
     public Rosie(RosieAppController appController) {
         this.appController = appController;
     }
+
+    public RosieAppController getAppController() {
+        return appController;
+    }
 }

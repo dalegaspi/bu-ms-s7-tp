@@ -60,4 +60,9 @@ public class BasicWarehouseInventory implements WarehouseInventory {
     public CartCheckoutQueueReceiver getCheckoutQueueReceiver() {
         return this.checkoutQueueReceiver;
     }
+
+    @Override
+    public AddItemToCartQueueReceiver getAddItemToCartQueueReceiver() {
+        return this.addItemToCartQueueReceiver;
+    }
 }

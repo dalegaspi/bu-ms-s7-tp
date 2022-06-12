@@ -27,4 +27,8 @@ public interface StoreBusinessLayer {
     Either<BestPurchaseAppException, RecommendedItems> getRecommendedItems(Item item, Customer customer);
 
     Either<BestPurchaseAppException, BigDecimal> computeCartTotals(ShoppingCart cart);
+
+     Either<BestPurchaseAppException, ShoppingCart> addItemToCart(final ShoppingCart cart,
+                                                                        final Item item,
+                                                                        final int quantity);
 }
