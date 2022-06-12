@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.interfaces;
+package edu.bu.cs622.bestpurchase.interfaces.qrcode;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;

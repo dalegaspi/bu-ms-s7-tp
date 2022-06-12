@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.interfaces;
+package edu.bu.cs622.bestpurchase.interfaces.qrcode;
 
 import edu.bu.cs622.bestpurchase.entities.ids.IdType;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;

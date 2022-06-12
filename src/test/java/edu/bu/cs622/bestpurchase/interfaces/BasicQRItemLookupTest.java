@@ -1,6 +1,7 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
 import edu.bu.cs622.bestpurchase.interfaces.hardware.BasicCameraSimulator;
+import edu.bu.cs622.bestpurchase.interfaces.qrcode.BasicQRItemLookup;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
