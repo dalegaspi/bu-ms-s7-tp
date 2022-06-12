@@ -18,6 +18,7 @@ import javax.inject.Singleton;
  *
  * @author dlegaspi@bu.edu
  */
+
 @Singleton
 public class InProcCartCheckoutQueueReceiver extends AbstractInProcQueue<ShoppingCart>
                 implements CartCheckoutQueueReceiver {

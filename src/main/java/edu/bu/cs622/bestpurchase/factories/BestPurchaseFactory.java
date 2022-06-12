@@ -1,6 +1,8 @@
 package edu.bu.cs622.bestpurchase.factories;
 
 import dagger.Component;
+import edu.bu.cs622.bestpurchase.actors.Shopper;
+import edu.bu.cs622.bestpurchase.actors.WarehouseWorker;
 import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.AddItemToCartQueueReceiver;
 import edu.bu.cs622.bestpurchase.interfaces.queues.senders.AddItemToCartQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.CartCheckoutQueueReceiver;
@@ -30,4 +32,8 @@ public interface BestPurchaseFactory {
     AddItemToCartQueueSender buildAddItemToCartQueueSender();
 
     AddItemToCartQueueReceiver buildAddItemToCartQueueReceiver();
+
+    Shopper buildShopper();
+
+    WarehouseWorker buildWarehouseWorker();
 }

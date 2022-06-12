@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.math.BigDecimal;
 
 /**
@@ -30,6 +31,7 @@ import java.math.BigDecimal;
  * @see BasicRecommender
  * @author dlegaspi@bu.edu
  */
+@Singleton
 public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     private static Logger logger = LoggerFactory.getLogger(BasicStoreBusinessLayer.class);
 
@@ -51,7 +53,7 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
                     Store store,
                     Recommender recommender,
                     ReviewsAPI reviewsAPI) {
-        logger.debug("Store business layer created.");
+        logger.debug("Basic store business layer created.");
 
         this.warehouseInventory = warehouseInventory;
         this.store = store;

@@ -18,7 +18,6 @@ import javax.inject.Singleton;
  *
  * @author dlegaspi@bu.edu
  */
-@Singleton
 public class InProcCartCheckoutQueueSender extends AbstractInProcQueue<ShoppingCart>
                 implements CartCheckoutQueueSender {
     private static Logger logger = LoggerFactory.getLogger(InProcCartCheckoutQueueSender.class);

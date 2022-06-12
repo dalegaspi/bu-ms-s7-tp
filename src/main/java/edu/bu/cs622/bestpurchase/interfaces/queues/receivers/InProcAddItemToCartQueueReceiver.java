@@ -7,19 +7,27 @@ import edu.bu.cs622.bestpurchase.interfaces.queues.AbstractInProcQueue;
 import edu.bu.cs622.bestpurchase.interfaces.queues.InProcQueueContext;
 import io.vavr.Tuple2;
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zeromq.ZMQ;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
+
+@Singleton
 public class InProcAddItemToCartQueueReceiver extends AbstractInProcQueue<Tuple2<Item, ShoppingCart>>
                 implements AddItemToCartQueueReceiver {
+
+    private static Logger logger = LoggerFactory.getLogger(InProcAddItemToCartQueueReceiver.class);
 
     ZMQ.Socket conn;
 
     @Inject
     public InProcAddItemToCartQueueReceiver(@Named("ITEM") InProcQueueContext context) {
         super(context);
+        logger.debug("Context address: {}", context.getAddress());
         conn = createReceiverSocket();
     }
 

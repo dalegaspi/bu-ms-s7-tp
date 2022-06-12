@@ -8,15 +8,21 @@ import edu.bu.cs622.bestpurchase.interfaces.databases.ItemDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.AddItemToCartQueueReceiver;
 import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.CartCheckoutQueueReceiver;
 import io.vavr.control.Either;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 
 /**
  * Warehouse controller
  *
  * @author dlegaspi@bu.edu
  */
+@Singleton
 public class BasicWarehouseInventory implements WarehouseInventory {
+    private static Logger logger = LoggerFactory.getLogger(BasicWarehouseInventory.class);
 
     private Warehouse warehouse;
     private EmployeeDatabase employeeDatabase;
@@ -38,6 +44,7 @@ public class BasicWarehouseInventory implements WarehouseInventory {
         this.itemDatabase = itemDatabase;
         this.checkoutQueueReceiver = checkoutQueueReceiver;
         this.addItemToCartQueueReceiver = addItemToCartQueueReceiver;
+        logger.debug("Basic warehouse inventory created.");
     }
 
     @Override

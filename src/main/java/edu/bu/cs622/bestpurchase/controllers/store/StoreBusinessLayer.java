@@ -8,6 +8,7 @@ import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.RecommendedItems;
 import io.vavr.control.Either;
 
+import javax.inject.Singleton;
 import java.math.BigDecimal;
 
 /**

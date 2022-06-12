@@ -11,6 +11,7 @@ import org.zeromq.ZMQ;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 public class InProcAddItemToCartQueueSender extends AbstractInProcQueue<Tuple2<Item, ShoppingCart>>
                 implements AddItemToCartQueueSender {
