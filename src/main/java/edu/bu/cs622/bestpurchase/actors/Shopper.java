@@ -1,7 +1,6 @@
 package edu.bu.cs622.bestpurchase.actors;
 
 import edu.bu.cs622.bestpurchase.views.Astro;
-import io.vavr.control.Option;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
