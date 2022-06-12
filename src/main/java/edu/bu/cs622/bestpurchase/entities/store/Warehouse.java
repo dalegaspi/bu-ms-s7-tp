@@ -18,7 +18,13 @@ public class Warehouse implements Serializable {
     private Map<Item, Integer> availableItemQuantity;
 
     public Either<BestPurchaseAppException, Integer> updateQuantityForItem(Item item, int quantity) {
+        // todo: a better implementation
         return Either.right(0);
+    }
+
+    public Either<BestPurchaseAppException, Integer> getQuantityAvailableForItem(Item item) {
+        // todo: a better implementation
+        return Either.right(42);
     }
 
     @Inject

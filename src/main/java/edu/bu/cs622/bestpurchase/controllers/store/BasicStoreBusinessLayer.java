@@ -45,8 +45,6 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     private AddItemToCartQueueSender addItemToCartQueueSender;
 
-
-
     @Inject
     public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory,
                     EmployeeDatabase employeeDatabase,
@@ -91,7 +89,8 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     @Override
     public Either<BestPurchaseAppException, String> getItemDetails(Item item) {
-        return Either.right(item.getDetails());
+        var qtyAvailable = getWarehouseInventory().getQuantityAvailableForItem(item);
+        return qtyAvailable.map(qty -> item.getDetails() + " with [" + qty + "] available");
     }
 
     @Override

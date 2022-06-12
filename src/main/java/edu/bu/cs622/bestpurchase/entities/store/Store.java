@@ -6,6 +6,7 @@ import edu.bu.cs622.bestpurchase.entities.persons.Employee;
 
 import javax.inject.Inject;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,8 @@ import java.util.List;
 public class Store implements Serializable {
     @Inject
     public Store() {
-
+        activeShoppers = new ArrayList<>();
+        employees = new ArrayList<>();
     }
 
     private Warehouse warehouse;
@@ -53,6 +55,8 @@ public class Store implements Serializable {
     }
 
     public void setActiveShoppers(List<Customer> activeShoppers) {
+        assert activeShoppers != null;
+
         this.activeShoppers = activeShoppers;
     }
 }

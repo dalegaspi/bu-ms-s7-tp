@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
 /**
  * Warehouse controller
  *
@@ -50,6 +49,11 @@ public class BasicWarehouseInventory implements WarehouseInventory {
     @Override
     public Either<BestPurchaseAppException, Integer> updateQuantityForItem(Item item, int quantity) {
         return warehouse.updateQuantityForItem(item, quantity);
+    }
+
+    @Override
+    public Either<BestPurchaseAppException, Integer> getQuantityAvailableForItem(Item item) {
+        return warehouse.getQuantityAvailableForItem(item);
     }
 
     @Override

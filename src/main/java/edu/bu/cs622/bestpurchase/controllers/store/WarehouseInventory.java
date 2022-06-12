@@ -7,9 +7,10 @@ import io.vavr.control.Either;
 
 import javax.inject.Singleton;
 
-
 public interface WarehouseInventory {
     Either<BestPurchaseAppException, Integer> updateQuantityForItem(Item item, int quantity);
+
+    Either<BestPurchaseAppException, Integer> getQuantityAvailableForItem(Item item);
 
     CartCheckoutQueueReceiver getCheckoutQueueReceiver();
 }
