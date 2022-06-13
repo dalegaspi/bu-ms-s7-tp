@@ -1,6 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities;
 
-import edu.bu.cs622.bestpurchase.entities.ids.IdType;
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

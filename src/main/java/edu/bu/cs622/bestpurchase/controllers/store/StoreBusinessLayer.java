@@ -1,6 +1,6 @@
 package edu.bu.cs622.bestpurchase.controllers.store;
 
-import edu.bu.cs622.bestpurchase.entities.ids.IdType;
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
@@ -8,7 +8,6 @@ import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.RecommendedItems;
 import io.vavr.control.Either;
 
-import javax.inject.Singleton;
 import java.math.BigDecimal;
 
 /**

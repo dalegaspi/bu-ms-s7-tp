@@ -1,10 +1,10 @@
-package edu.bu.cs622.bestpurchase.interfaces.qrcode;
+package edu.bu.cs622.bestpurchase.interfaces.components;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.common.HybridBinarizer;
-import edu.bu.cs622.bestpurchase.entities.ids.IdType;
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;
 import io.vavr.control.Try;

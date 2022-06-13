@@ -1,6 +1,6 @@
 package edu.bu.cs622.bestpurchase.entities.persons;
 
-import edu.bu.cs622.bestpurchase.entities.ids.IdType;
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 
 import java.io.Serializable;
 
