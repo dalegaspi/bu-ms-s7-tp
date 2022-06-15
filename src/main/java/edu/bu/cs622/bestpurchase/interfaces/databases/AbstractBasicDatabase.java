@@ -24,7 +24,7 @@ public abstract class AbstractBasicDatabase<K, V> implements EntityDatabase<K, V
         return Either.right(data.size());
     }
 
-    public Either<BestPurchaseAppException, Optional<V>> lookupById(K customerId) {
-        return Either.right(Optional.ofNullable(data.get(customerId)));
+    public Either<BestPurchaseAppException, Optional<V>> lookupById(K id) {
+        return Either.right(Optional.ofNullable(data.get(id)));
     }
 }

@@ -25,40 +25,19 @@ public class BestPurchaseSimulation {
         logger.info("BestPurchase Add Item to Cart Use Case Simulation begins.");
 
         // Setup terminal and screen layers
-        Terminal terminal = new DefaultTerminalFactory().createTerminal();
-        Screen screen = new TerminalScreen(terminal);
-        screen.startScreen();
-
-        // Create panel to hold components
-        Panel panel = new Panel();
-        panel.setLayoutManager(new GridLayout(2));
-
-        panel.addComponent(new Label("Forename"));
-        panel.addComponent(new TextBox());
-
-        panel.addComponent(new Label("Surname"));
-        panel.addComponent(new TextBox());
-
-        panel.addComponent(new EmptySpace(new TerminalSize(0,0))); // Empty space underneath labels
-        panel.addComponent(new Button("Submit"));
-
-        // Create window to hold the panel
-        BasicWindow window = new BasicWindow();
-        window.setComponent(panel);
-
-        // Create gui and start gui
-        MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLUE));
-        gui.addWindowAndWait(window);
 
         BestPurchaseFactory factory = DaggerBestPurchaseFactory.create();
-
-        var shopper = factory.buildShopper();
         var worker = factory.buildWarehouseWorker();
+        var f2 = worker.start();
+
+        // var shopper = factory.buildShopper();
+
+        var astro = factory.buildAstro();
 
         // start the actual simulation
-        var f1 = shopper.start();
-        var f2 = worker.start();
-        CompletableFuture.allOf(f1, f2).join();
+        // var f1 = shopper.start();
+
+        // CompletableFuture.allOf(f2).join();
 
         logger.info("BestPurchase Add Item to Cart Use Case Simulation ends.");
     }

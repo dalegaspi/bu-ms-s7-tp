@@ -26,6 +26,7 @@ public final class IdType implements Serializable {
 
     private static List<String> words = List.of("bread", "robot", "cat", "jam", "goat", "bird", "yam", "hall");
     private static Random random = new Random();
+
     private static String getRandomWord() {
         return words.get(random.nextInt(words.size()));
     }
@@ -36,7 +37,7 @@ public final class IdType implements Serializable {
 
     @Override
     public String toString() {
-        return this.id.toString();
+        return this.id.toString() + "/" + getEasyToRememberId();
     }
 
     @Override

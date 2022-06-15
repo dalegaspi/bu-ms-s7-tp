@@ -7,12 +7,9 @@ import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 
 import javax.inject.Inject;
 
-public class Astro {
-
+public abstract class Astro {
     private final AstroAppController appController;
 
-
-    @Inject
     public Astro(AstroAppController appController) {
         this.appController = appController;
     }
@@ -21,7 +18,5 @@ public class Astro {
         return appController;
     }
 
-    public void handleAddItemToCart(Object event) {
-        // this handles the button press event on "Add Item to Cart"
-    }
+    abstract boolean handleScanQRCode();
 }
