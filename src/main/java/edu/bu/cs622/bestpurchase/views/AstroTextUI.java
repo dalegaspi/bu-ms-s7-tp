@@ -141,8 +141,14 @@ public class AstroTextUI extends Astro {
             var rc = handleScanQRCode();
             if (rc) {
                 MessageDialog.showMessageDialog(gui, "Camera", "QR Code scan operation succeeded.");
-                removeExitButton();
-                setActionToAddToCart();
+
+                int warehouseQty = getAppController().getStoreBusinessLayer().getAvailableQuantity(selectedItem).toJavaOptional().orElse(0);
+                if (warehouseQty == 0) {
+                    MessageDialog.showMessageDialog(gui, "Error", String.format("There are no more available %s", selectedItem.getDescription()));
+                } else {
+                    removeExitButton();
+                    setActionToAddToCart();
+                }
             } else {
                 MessageDialog.showMessageDialog(gui, "Camera", "QR Code scan operation failed.");
             }

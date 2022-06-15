@@ -30,4 +30,6 @@ public interface StoreBusinessLayer {
      Either<BestPurchaseAppException, ShoppingCart> addItemToCart(final ShoppingCart cart,
                                                                         final Item item,
                                                                         final int quantity);
+
+     Either<BestPurchaseAppException, Integer> getAvailableQuantity(Item item);
 }

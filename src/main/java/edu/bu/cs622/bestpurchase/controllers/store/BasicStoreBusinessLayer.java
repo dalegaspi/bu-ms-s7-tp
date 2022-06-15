@@ -117,6 +117,7 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     @Override
     public Either<BestPurchaseAppException, ShoppingCart> addItemToCart(ShoppingCart cart, Item item, int quantity) {
         cart.addItemToCart(item, quantity);
+        warehouseInventory.updateQuantityForItem(item, quantity);
         return addItemToCartQueueSender.send(Tuple.of(item, cart, quantity))
                         .mapLeft(t -> (BestPurchaseAppException) t)
                         .map(b -> {
@@ -124,6 +125,11 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
                                             item.getDescription());
                             return cart;
                         });
+    }
+
+    @Override
+    public Either<BestPurchaseAppException, Integer> getAvailableQuantity(Item item) {
+        return warehouseInventory.getQuantityAvailableForItem(item);
     }
 
     public Store getStore() {
