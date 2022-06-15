@@ -7,7 +7,7 @@ import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.databases.CustomerDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.hardware.Camera;
-import edu.bu.cs622.bestpurchase.interfaces.qrcode.QRItemLookup;
+import edu.bu.cs622.bestpurchase.interfaces.components.QRItemLookup;
 import io.vavr.control.Either;
 
 import javax.inject.Inject;

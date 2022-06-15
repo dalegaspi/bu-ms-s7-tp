@@ -1,7 +1,7 @@
 package edu.bu.cs622.bestpurchase.interfaces.databases;
 
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
-import edu.bu.cs622.bestpurchase.entities.ids.IdType;
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.control.Either;

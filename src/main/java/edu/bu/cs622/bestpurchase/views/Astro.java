@@ -11,9 +11,6 @@ public class Astro {
 
     private final AstroAppController appController;
 
-    private Customer customer;
-    private ShoppingCart cart;
-    private Item selectedItem;
 
     @Inject
     public Astro(AstroAppController appController) {
@@ -24,7 +21,7 @@ public class Astro {
         return appController;
     }
 
-    public void handleAddItemToCart() {
-        appController.addItemToCart(cart, selectedItem, 1);
+    public void handleAddItemToCart(Object event) {
+        // this handles the button press event on "Add Item to Cart"
     }
 }

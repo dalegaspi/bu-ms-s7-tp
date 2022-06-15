@@ -426,7 +426,7 @@ package interfaces.reviews #D5E8D4 {
   }
 }
 
-package interfaces.qrcode #D5E8D4 {
+package interfaces.components #D5E8D4 {
   interface QRItemLookup << interface >> {
     + convertQRCodeToItemId(BufferedImage): IdType
   }

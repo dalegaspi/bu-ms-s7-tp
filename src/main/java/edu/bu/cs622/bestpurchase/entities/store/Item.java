@@ -1,7 +1,5 @@
 package edu.bu.cs622.bestpurchase.entities.store;
 
-import edu.bu.cs622.bestpurchase.entities.ids.IdType;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;

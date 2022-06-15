@@ -1,4 +1,4 @@
-package edu.bu.cs622.bestpurchase.entities.ids;
+package edu.bu.cs622.bestpurchase.entities.store;
 
 import java.io.Serializable;
 import java.util.List;
