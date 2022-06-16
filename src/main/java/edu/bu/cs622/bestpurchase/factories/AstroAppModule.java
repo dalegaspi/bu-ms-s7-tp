@@ -27,6 +27,8 @@ import edu.bu.cs622.bestpurchase.interfaces.recommenders.BasicRecommender;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.Recommender;
 import edu.bu.cs622.bestpurchase.interfaces.reviews.BasicReviewsAPI;
 import edu.bu.cs622.bestpurchase.interfaces.reviews.ReviewsAPI;
+import edu.bu.cs622.bestpurchase.views.Astro;
+import edu.bu.cs622.bestpurchase.views.AstroTextUI;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -94,4 +96,7 @@ public abstract class AstroAppModule {
 
     @Binds
     abstract AppConfig getAppConfig(SimpleAppConfig appConfig);
+
+    @Binds
+    abstract Astro getAstro(AstroTextUI astro);
 }

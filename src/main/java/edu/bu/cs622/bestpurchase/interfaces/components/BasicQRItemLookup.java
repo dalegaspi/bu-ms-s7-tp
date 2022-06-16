@@ -14,11 +14,14 @@ import java.awt.image.BufferedImage;
 import java.util.UUID;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * QR Code Lookup
  */
 public class BasicQRItemLookup implements QRItemLookup {
+    private static Logger logger = LoggerFactory.getLogger(BasicQRItemLookup.class);
 
     @Inject
     public BasicQRItemLookup() {
@@ -31,11 +34,14 @@ public class BasicQRItemLookup implements QRItemLookup {
             var bitmap = new BinaryBitmap(new HybridBinarizer(source));
 
             var result = new MultiFormatReader().decode(bitmap);
+
             var values = result.getText().split(",");
 
             assert values.length == 2;
 
-            return new IdType(UUID.fromString(values[0]), values[1]);
+            var id = new IdType(UUID.fromString(values[0]), values[1]);
+            logger.debug("Item ID is {}", id);
+            return id;
         }).toEither().mapLeft(t -> new BestPurchaseAppException("Unable to read from QR code", t));
     }
 }

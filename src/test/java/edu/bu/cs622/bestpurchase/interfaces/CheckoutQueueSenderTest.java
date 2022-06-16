@@ -39,7 +39,7 @@ class CheckoutQueueSenderTest {
         var item = new Item();
         item.setDescription("foo");
 
-        var r1 = sender.send(Tuple.of(item, cart));
+        var r1 = sender.send(Tuple.of(item, cart, 1));
         assertTrue(r1.isRight() && r1.get());
 
         var receiver = factory.buildAddItemToCartQueueReceiver();

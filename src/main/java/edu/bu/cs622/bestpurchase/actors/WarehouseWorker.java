@@ -20,16 +20,21 @@ public class WarehouseWorker extends SimulatedActor {
 
     @Override
     void doSomething() {
-        Try.run(()-> {
-            logger.debug("Working...");
+        Try.run(() -> {
+            while (true) {
+                logger.debug("Working...");
 
-            rosie.getAppController()
-                    .getWarehouseInventory()
-                    .getAddItemToCartQueueReceiver()
-                    .receive().map(t -> {
-                        logger.info("Item [{}] added to cart with id [{}]", t._1.getDescription(), t._2.getId().getEasyToRememberId());
-                        return Option.none();
-                    });
+                rosie.getAppController()
+                                .getWarehouseInventory()
+                                .getAddItemToCartQueueReceiver()
+                                .receive().map(t -> {
+                                    logger.info("[{}] pcs of [{}] added to cart with id [{}]", t._3,
+                                                    t._1.getDescription(), t._2.getId().getEasyToRememberId());
+                                    return Option.none();
+                                });
+
+                pause();
+            }
         });
     }
 }

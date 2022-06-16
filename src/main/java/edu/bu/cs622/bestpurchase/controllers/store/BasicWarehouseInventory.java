@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.controllers.store;
 
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.Warehouse;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
@@ -13,6 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Warehouse controller
@@ -44,6 +49,14 @@ public class BasicWarehouseInventory implements WarehouseInventory {
         this.checkoutQueueReceiver = checkoutQueueReceiver;
         this.addItemToCartQueueReceiver = addItemToCartQueueReceiver;
         logger.debug("Basic warehouse inventory created.");
+
+        // prime the item db and warehouse with just one item
+        var item = new Item();
+        item.setId(new IdType(UUID.fromString("adb8d524-32af-47eb-a192-5e483ef70325"), "hotdog"));
+        item.setDescription("Hotdog Multiplexer");
+        item.setPrice(new BigDecimal("1.99"));
+        this.itemDatabase.insert(List.of(item));
+        this.warehouse.insert(Map.of(item, 42));
     }
 
     @Override

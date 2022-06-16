@@ -7,6 +7,7 @@ import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import edu.bu.cs622.bestpurchase.entities.store.Store;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import edu.bu.cs622.bestpurchase.interfaces.databases.EmployeeDatabase;
+import edu.bu.cs622.bestpurchase.interfaces.databases.ItemDatabase;
 import edu.bu.cs622.bestpurchase.interfaces.queues.senders.AddItemToCartQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.queues.senders.CartCheckoutQueueSender;
 import edu.bu.cs622.bestpurchase.interfaces.recommenders.BasicRecommender;
@@ -46,9 +47,12 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     private AddItemToCartQueueSender addItemToCartQueueSender;
 
+    private ItemDatabase itemDatabase;
+
     @Inject
     public BasicStoreBusinessLayer(WarehouseInventory warehouseInventory,
                     EmployeeDatabase employeeDatabase,
+                    ItemDatabase itemDatabase,
                     CartCheckoutQueueSender checkoutQueueSender,
                     AddItemToCartQueueSender addItemToCartQueueSender,
                     Store store,
@@ -62,6 +66,7 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
         this.reviewsAPI = reviewsAPI;
         this.checkoutQueueSender = checkoutQueueSender;
         this.addItemToCartQueueSender = addItemToCartQueueSender;
+        this.itemDatabase = itemDatabase;
     }
 
     private ShoppingCart createShoppingCart() {
@@ -81,11 +86,11 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     @Override
     public Either<BestPurchaseAppException, Item> lookupByItemId(IdType id) {
-        var item = new Item();
-        item.setId(id);
-        item.setDescription("Hotdog Multiplexer");
-        item.setPrice(new BigDecimal("1.99"));
-        return Either.right(item);
+        return this.itemDatabase.lookupById(id)
+                        .flatMap(i -> i.isEmpty()
+                                        ? Either.left(new BestPurchaseAppException(
+                                                        "No available item with id " + id.toString()))
+                                        : Either.right(i.get()));
     }
 
     @Override
@@ -112,12 +117,19 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     @Override
     public Either<BestPurchaseAppException, ShoppingCart> addItemToCart(ShoppingCart cart, Item item, int quantity) {
         cart.addItemToCart(item, quantity);
-        return addItemToCartQueueSender.send(Tuple.of(item, cart))
-                .mapLeft(t -> (BestPurchaseAppException) t)
-                .map(b -> {
-                    logger.debug("Item [{}] added to cart notification sent to warehouse", item.getDescription());
-                    return cart;
-                });
+        warehouseInventory.updateQuantityForItem(item, quantity);
+        return addItemToCartQueueSender.send(Tuple.of(item, cart, quantity))
+                        .mapLeft(t -> (BestPurchaseAppException) t)
+                        .map(b -> {
+                            logger.debug("Item [{}] added to cart notification sent to warehouse",
+                                            item.getDescription());
+                            return cart;
+                        });
+    }
+
+    @Override
+    public Either<BestPurchaseAppException, Integer> getAvailableQuantity(Item item) {
+        return warehouseInventory.getQuantityAvailableForItem(item);
     }
 
     public Store getStore() {
