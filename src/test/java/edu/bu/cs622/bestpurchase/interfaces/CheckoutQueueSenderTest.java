@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces;
 
+import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.factories.BestPurchaseFactory;
 import edu.bu.cs622.bestpurchase.factories.DaggerBestPurchaseFactory;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
@@ -36,7 +37,7 @@ class CheckoutQueueSenderTest {
     void testAddItemToCartQueue() {
         var sender = factory.buildAddItemToCartQueueSender();
         var cart = new ShoppingCart();
-        var item = new Item();
+        var item = new Item(new IdType(), "foo", "bar", 1.99);
         item.setDescription("foo");
 
         var r1 = sender.send(Tuple.of(item, cart, 1));
