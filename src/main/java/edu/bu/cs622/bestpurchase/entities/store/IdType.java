@@ -20,6 +20,10 @@ public final class IdType implements Serializable {
         this.ez2r = ez2r;
     }
 
+    public static IdType toIdType(String uuid, String ez2r) {
+        return new IdType(UUID.fromString(uuid), ez2r);
+    }
+
     public IdType(String ez2r) {
         this(UUID.randomUUID(), ez2r);
     }

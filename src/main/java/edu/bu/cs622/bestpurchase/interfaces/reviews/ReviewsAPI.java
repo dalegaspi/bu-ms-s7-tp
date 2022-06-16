@@ -8,4 +8,7 @@ import java.util.List;
 
 public interface ReviewsAPI {
     Either<BestPurchaseAppException, List<ItemReview>> getReviewsForItem(Item item);
+
+    Either<BestPurchaseAppException, String> getFormattedItemsSummary(Item item, List<ItemReview> reviews);
+
 }

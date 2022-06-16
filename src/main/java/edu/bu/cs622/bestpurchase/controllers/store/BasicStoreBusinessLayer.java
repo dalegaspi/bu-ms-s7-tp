@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.controllers.store;
 
+import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
@@ -94,9 +95,21 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
     }
 
     @Override
-    public Either<BestPurchaseAppException, String> getItemDetails(Item item) {
+    public Either<BestPurchaseAppException, String> getItemDetails(Item item, CustomerProfile profile) {
         var qtyAvailable = getWarehouseInventory().getQuantityAvailableForItem(item);
-        return qtyAvailable.map(qty -> item.getDetails() + " with [" + qty + "] available");
+        var reviewSummary = reviewsAPI
+                        .getReviewsForItem(item).flatMap(reviews -> reviewsAPI.getFormattedItemsSummary(item, reviews))
+                        .toJavaOptional();
+        var recommendedItems = recommender.getRecommendations(item, profile).map(r -> r.getItems().size()).getOrElse(0);
+        return qtyAvailable.map(qty -> {
+            var details = item.getDetails() + " with [" + qty + "] available.";
+            details += String.format("\nAstro recommends %d items to go with this.", recommendedItems);
+            if (reviewSummary.isPresent()) {
+                details += "\n" + reviewSummary.get();
+            }
+
+            return details;
+        });
     }
 
     @Override

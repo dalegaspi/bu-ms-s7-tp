@@ -7,6 +7,7 @@ import edu.bu.cs622.bestpurchase.interfaces.queues.receivers.CartCheckoutQueueRe
 import io.vavr.control.Either;
 
 import javax.inject.Singleton;
+import java.util.Collection;
 
 public interface WarehouseInventory {
     Either<BestPurchaseAppException, Integer> updateQuantityForItem(Item item, int quantity);
@@ -16,4 +17,6 @@ public interface WarehouseInventory {
     CartCheckoutQueueReceiver getCheckoutQueueReceiver();
 
     AddItemToCartQueueReceiver getAddItemToCartQueueReceiver();
+
+    Either<BestPurchaseAppException, Collection<Item>> getItems();
 }

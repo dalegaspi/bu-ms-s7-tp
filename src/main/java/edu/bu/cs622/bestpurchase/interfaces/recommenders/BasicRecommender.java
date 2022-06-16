@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.interfaces.recommenders;
 
+import edu.bu.cs622.bestpurchase.controllers.store.WarehouseInventory;
 import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
@@ -9,13 +10,17 @@ import javax.inject.Inject;
 
 public class BasicRecommender implements Recommender {
 
-    @Inject
-    public BasicRecommender() {
+    WarehouseInventory inventory;
 
+    @Inject
+    public BasicRecommender(WarehouseInventory warehouseInventory) {
+        this.inventory = warehouseInventory;
     }
 
     @Override
     public Either<BestPurchaseAppException, RecommendedItems> getRecommendations(Item item, CustomerProfile profile) {
-        return Either.right(new RecommendedItems());
+        return inventory.getItems()
+                        .map(list -> list.stream().filter(i -> !i.equals(item)).toList())
+                        .map(list -> new RecommendedItems(profile, list));
     }
 }

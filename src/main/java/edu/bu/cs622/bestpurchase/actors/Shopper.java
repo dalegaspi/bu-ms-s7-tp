@@ -27,13 +27,13 @@ public class Shopper extends SimulatedActor {
             pause();
 
             var cart = customer
-                    .map(mc -> mc.map(c -> controller.getStoreBusinessLayer().getShoppingCartFor(c)));
+                            .map(mc -> mc.map(c -> controller.getStoreBusinessLayer().getShoppingCartFor(c)));
             var item = controller.scanWithCamera().toJavaOptional();
             logger.debug("Scanned item identified? {}", item.isPresent());
             pause();
 
             item.ifPresent(i -> {
-                var details = controller.getStoreBusinessLayer().getItemDetails(i);
+                var details = controller.getStoreBusinessLayer().getItemDetails(i, null);
                 details.map(d -> {
                     logger.info("Item details: {}", d);
                     return d;

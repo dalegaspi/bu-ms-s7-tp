@@ -13,6 +13,17 @@ public class ItemReview implements Serializable {
     private Item item;
     private String url;
 
+    private int rating;
+
+    private String summary;
+
+    ItemReview(Item item, String url, String summary, int rating) {
+        this.item = item;
+        this.url = url;
+        this.summary = summary;
+        setRating(rating);
+    }
+
     public String getUrl() {
         return url;
     }
@@ -27,5 +38,15 @@ public class ItemReview implements Serializable {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        if (rating > 5 || rating < 1)
+            throw new IllegalArgumentException("Rating should be between 1 and 5 inclusive.");
+        this.rating = rating;
     }
 }

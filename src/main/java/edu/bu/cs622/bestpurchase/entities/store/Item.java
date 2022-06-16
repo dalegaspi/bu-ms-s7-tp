@@ -17,6 +17,15 @@ public class Item implements Serializable {
     private BigDecimal price;
     private List<ItemCategory> categories;
 
+    private String brand;
+
+    public Item(IdType id, String brand, String description, double price) {
+        this.id = id;
+        this.brand = brand;
+        this.description = description;
+        this.price = BigDecimal.valueOf(price);
+    }
+
     public IdType getId() {
         return id;
     }
@@ -26,7 +35,7 @@ public class Item implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return brand + " " + description;
     }
 
     public void setDescription(String description) {
@@ -77,5 +86,11 @@ public class Item implements Serializable {
         return Objects.hash(id, description);
     }
 
+    public String getBrand() {
+        return brand;
+    }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 }

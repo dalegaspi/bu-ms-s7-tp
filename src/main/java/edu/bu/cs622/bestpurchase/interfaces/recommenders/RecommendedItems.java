@@ -4,6 +4,7 @@ import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,11 @@ import java.util.List;
 public class RecommendedItems implements Serializable {
     private List<Item> items;
     private CustomerProfile profile;
+
+    public RecommendedItems(CustomerProfile profile, List<Item> items) {
+        this.items = new ArrayList<>(items);
+        this.profile = profile;
+    }
 
     public CustomerProfile getProfile() {
         return profile;

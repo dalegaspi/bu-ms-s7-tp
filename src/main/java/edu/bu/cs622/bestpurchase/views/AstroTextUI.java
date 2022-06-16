@@ -9,6 +9,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import edu.bu.cs622.bestpurchase.controllers.app.AstroAppController;
+import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 import io.vavr.Tuple;
@@ -34,7 +35,7 @@ public class AstroTextUI extends Astro {
 
         item.ifPresent(i -> {
             selectedItem = i;
-            var details = getAppController().getStoreBusinessLayer().getItemDetails(i);
+            var details = getAppController().getStoreBusinessLayer().getItemDetails(i, customer.getProfile());
             details.map(d -> {
                 logger.info("Item details: {}", d);
                 selectedItemDetails = d;
@@ -66,8 +67,8 @@ public class AstroTextUI extends Astro {
 
         customer.map(mc -> {
             mc.ifPresent(c -> {
-                customerName = c.getFirstName();
-                cart = getAppController().getStoreBusinessLayer().getShoppingCartFor(c);
+                this.customer = c;
+                this.cart = getAppController().getStoreBusinessLayer().getShoppingCartFor(c);
             });
             return mc;
         });
@@ -75,7 +76,7 @@ public class AstroTextUI extends Astro {
         return customer.isRight() && customer.get().isPresent();
     }
 
-    private String customerName;
+    private Customer customer;
 
     private Button shopActionButton;
 
@@ -107,6 +108,7 @@ public class AstroTextUI extends Astro {
 
         var password = new TextInputDialogBuilder()
                         .setPasswordInput(true)
+                        .setTitle("Login")
                         .setDescription("Enter password")
                         .build()
                         .showDialog(gui);
@@ -138,8 +140,7 @@ public class AstroTextUI extends Astro {
     }
 
     void setActionToAddToCart() {
-        messageLabel.setText(String.format("%s.\nClick on the 'Add Item to Cart' button to add %s to cart",
-                        selectedItemDetails, selectedItem.getDescription()));
+        messageLabel.setText(selectedItemDetails);
         replaceActionButton(new Button("Add Item to Cart", () -> {
             var qty = getItemQuantity();
 
@@ -151,16 +152,19 @@ public class AstroTextUI extends Astro {
     }
 
     void setActionToScan() {
-        messageLabel.setText(String.format("Hi, %s!\nClick on the button to start scanning your item!", customerName));
+        messageLabel.setText(String.format("Hi, %s!\nClick on the button to start scanning your item!",
+                        customer.getFirstName()));
         panel.removeComponent(shopActionButton);
         shopActionButton = new Button("Scan QR Code with Camera", () -> {
             var rc = handleScanQRCode();
             if (rc) {
                 MessageDialog.showMessageDialog(gui, "Camera", "QR Code scan operation succeeded.");
 
-                int warehouseQty = getAppController().getStoreBusinessLayer().getAvailableQuantity(selectedItem).toJavaOptional().orElse(0);
+                int warehouseQty = getAppController().getStoreBusinessLayer().getAvailableQuantity(selectedItem)
+                                .toJavaOptional().orElse(0);
                 if (warehouseQty == 0) {
-                    MessageDialog.showMessageDialog(gui, "Error", String.format("There are no more available %s", selectedItem.getDescription()));
+                    MessageDialog.showMessageDialog(gui, "Error",
+                                    String.format("There are no more available %s", selectedItem.getDescription()));
                 } else {
                     removeExitButton();
                     setActionToAddToCart();

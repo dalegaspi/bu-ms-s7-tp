@@ -1,5 +1,6 @@
 package edu.bu.cs622.bestpurchase.controllers.store;
 
+import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.entities.store.IdType;
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
@@ -17,9 +18,10 @@ import java.math.BigDecimal;
  */
 public interface StoreBusinessLayer {
     ShoppingCart getShoppingCartFor(Customer customer);
+
     Either<BestPurchaseAppException, Item> lookupByItemId(IdType id);
 
-    Either<BestPurchaseAppException, String> getItemDetails(Item item);
+    Either<BestPurchaseAppException, String> getItemDetails(Item item, CustomerProfile profile);
 
     Either<BestPurchaseAppException, BigDecimal> getPriceForItem(Item item);
 
@@ -27,9 +29,9 @@ public interface StoreBusinessLayer {
 
     Either<BestPurchaseAppException, BigDecimal> computeCartTotals(ShoppingCart cart);
 
-     Either<BestPurchaseAppException, ShoppingCart> addItemToCart(final ShoppingCart cart,
-                                                                        final Item item,
-                                                                        final int quantity);
+    Either<BestPurchaseAppException, ShoppingCart> addItemToCart(final ShoppingCart cart,
+                    final Item item,
+                    final int quantity);
 
-     Either<BestPurchaseAppException, Integer> getAvailableQuantity(Item item);
+    Either<BestPurchaseAppException, Integer> getAvailableQuantity(Item item);
 }

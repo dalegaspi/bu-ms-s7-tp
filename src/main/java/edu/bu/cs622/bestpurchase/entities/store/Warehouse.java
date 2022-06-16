@@ -39,4 +39,8 @@ public class Warehouse implements Serializable {
 
         return Either.right(this.availableItemQuantity.size());
     }
+
+    public Either<BestPurchaseAppException, Collection<Item>> getItems() {
+        return Either.right(this.availableItemQuantity.keySet());
+    }
 }
