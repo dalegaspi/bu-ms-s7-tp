@@ -159,6 +159,7 @@ public class AstroTextUI extends Astro {
     }
 
     @Inject
+    @Override
     public void run() {
         try {
             terminal = new DefaultTerminalFactory().createTerminal();

@@ -19,4 +19,6 @@ public abstract class Astro {
     }
 
     abstract boolean handleScanQRCode();
+
+    abstract void run();
 }
