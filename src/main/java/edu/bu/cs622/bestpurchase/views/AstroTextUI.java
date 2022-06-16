@@ -45,6 +45,22 @@ public class AstroTextUI extends Astro {
         return item.isPresent();
     }
 
+    @Override
+    boolean handleAuthentication() {
+        var authenticated = false;
+        do {
+            var creds = getCredentials();
+            authenticated = authenticate(creds._1, creds._2);
+            if (!authenticated)
+                MessageDialog.showMessageDialog(gui, "Login", "Invalid username/password!");
+        } while (!authenticated);
+
+        removeExitButton();
+        setActionToScan();
+
+        return true;
+    }
+
     boolean authenticate(String username, String password) {
         var customer = getAppController().authenticate(username, password);
 
@@ -171,18 +187,7 @@ public class AstroTextUI extends Astro {
             panel.setLayoutManager(new GridLayout(2));
 
             messageLabel = new Label("Hi, my name is Astro!\nWelcome to BestPurchase!");
-            shopActionButton = new Button("Login", () -> {
-                var authenticated = false;
-                do {
-                    var creds = getCredentials();
-                    authenticated = authenticate(creds._1, creds._2);
-                    if (!authenticated)
-                        MessageDialog.showMessageDialog(gui, "Login", "Invalid username/password!");
-                } while (!authenticated);
-
-                removeExitButton();
-                setActionToScan();
-            });
+            shopActionButton = new Button("Login", this::handleAuthentication);
 
             quitButton = new Button("Exit", () -> System.exit(0));
 
