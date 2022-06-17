@@ -1,0 +1,379 @@
+@startuml "Best Purchase Class Diagram"
+
+!theme vibrant
+left to right direction
+skinparam linetype ortho
+
+package controllers.app #DAE8FC {
+  class AstroAppController {
+    - storeBusinessLayer: StoreBusinessLayer
+    - customerDatabase: CustomerDatabase
+    + addItemToCart(ShoppingCart, Item, int)
+    storeBusinessLayer: StoreBusinessLayer
+    customerDatabase: CustomerDatabase
+  }
+}
+
+package controllers.store #DAE8FC {
+  interface StoreBusinessLayer << interface >> {
+    + getPriceForItem(Item)
+    + getRecommendedItems(Item, Customer): RecommendedItems
+    + computeCartTotals(ShoppingCart)
+    + lookupByItemId(IdType): Item
+    + getItemDetails(Item): String
+  }
+
+  interface WarehouseInventory << interface >> {
+    + updateQuantityForItem(Item, int)
+  }
+
+  class BasicStoreBusinessLayer {
+    - store: Store
+    - addItemToCartQueueSender: AddItemToCartQueueSender
+    - checkoutQueueSender: CartCheckoutQueueSender
+    - reviewsAPI: ReviewsAPI
+    - warehouseInventory: WarehouseInventory
+    + getPriceForItem(Item)
+    + getRecommendedItems(Item, Customer): RecommendedItems
+    + computeCartTotals(ShoppingCart)
+    + lookupByItemId(IdType): Item
+    + getItemDetails(Item): String
+    warehouseInventory: WarehouseInventory
+    addItemToCartQueueSender: AddItemToCartQueueSender
+    reviewsAPI: ReviewsAPI
+    store: Store
+    checkoutQueueSender: CartCheckoutQueueSender
+  }
+  
+  class BasicWarehouseInventory {
+    + updateQuantityForItem(Item, int)
+  }
+}
+
+
+
+package entities.persons #E1D5E7 {
+  class Person {
+    + Person(String, String): 
+    - id: IdType
+    - lastName: String
+    - firstName: String
+    firstName: String
+    lastName: String
+    id: IdType
+  }
+
+  class Customer {
+    + Customer(String, String): 
+    - profile: CustomerProfile
+    - currentStoreLocation: Store
+    - billingAddress: AddressLocation
+    - cart: ShoppingCart
+    - shippingAddresses: List<AddressLocation>
+    profile: CustomerProfile
+    currentStoreLocation: Store
+    shippingAddresses: List<AddressLocation>
+    billingAddress: AddressLocation
+    cart: ShoppingCart
+  }
+
+  class CustomerProfile {
+    + CustomerProfile(): 
+    - recommenderData: Object
+    - userName: String
+    + createHash(String): byte[]
+    + authenticate(String): Boolean
+    + setCredentials(String, String)
+    recommenderData: Object
+    userName: String
+  }
+
+}
+
+package entities.store #E1D5E7 {
+   class IdType {
+    + IdType(): 
+    + IdType(UUID, String): 
+    + IdType(String): 
+    + toString(): String
+    + hashCode(): int
+    + equals(Object): boolean
+    easyToRememberId: String
+  }
+
+  class Item {
+    + Item(): 
+    - description: String
+    - categories: List<ItemCategory>
+    - unitOfMeasure: String
+    - id: IdType
+    - price: BigDecimal
+    + hashCode(): int
+    + equals(Object): boolean
+    description: String
+    details: String
+    price: BigDecimal
+    id: IdType
+    unitOfMeasure: String
+    categories: List<ItemCategory>
+  }
+
+  class ShoppingCart {
+    + ShoppingCart(): 
+    - id: IdType
+    + updateQuantityAndStateForItem(Item, boolean, int): void
+    + removeItem(Item): void
+    + addItemToCart(Item, int): void
+    fulfilled: boolean
+    allItems: Collection<Item>
+    id: IdType
+  }
+
+  class Store {
+    + Store(): 
+    - location: AddressLocation
+    - employees: List<Employee>
+    - activeShoppers: List<Employee>
+    - warehouse: Warehouse
+    warehouse: Warehouse
+    employees: List<Employee>
+    location: AddressLocation
+    activeShoppers: List<Employee>
+  }
+
+  class Warehouse {
+    + Warehouse(): 
+    + updateQuantityForItem(Item, int)
+  }
+}
+
+package exceptions #F8CECC {
+  class BestPurchaseAppException {
+    + BestPurchaseAppException(): 
+    + BestPurchaseAppException(String, Throwable): 
+    + BestPurchaseAppException(String): 
+  }  
+
+  class AuthenticationException {
+    + AuthenticationException(String, Throwable): 
+    + AuthenticationException(): 
+    + AuthenticationException(String): 
+  }
+
+  class CheckoutException {
+    + CheckoutException(String): 
+    + CheckoutException(String, Throwable): 
+    + CheckoutException(): 
+  }
+
+}
+
+package factories #F5F5F5 {
+  class AstroAppModule {
+    ~ getAddItemToCartQueueSender(InProcAddItemToCartQueueSender): AddItemToCartQueueSender 
+    ~ getQRItemLookup(BasicQRItemLookup): QRItemLookup
+    ~ getWarehouseInventory(BasicWarehouseInventory): WarehouseInventory
+    ~ getCheckoutQueueSender(InProcCartCheckoutQueueSender): CartCheckoutQueueSender
+    ~ getStoreBusinessLayer(BasicStoreBusinessLayer): StoreBusinessLayer
+
+    ~ getCamera(BasicCameraSimulator): Camera
+    ~ getReviewsAPI(BasicReviewsAPI): ReviewsAPI
+    ~ getItemDatabase(BasicItemDatabase): ItemDatabase
+    ~ getRecommender(BasicRecommender): Recommender
+    ~ getCustomerDatabase(BasicCustomerDatabase): CustomerDatabase
+    addItemToCartQueueContext: InProcQueueContext
+  }
+
+  interface BestPurchaseFactory << interface >> {
+    + buildAddItemToCartQueueSender(): AddItemToCartQueueSender
+    + buildAstro(): Astro
+    
+  }
+}
+
+package interfaces.databases #D5E8D4 {
+  class AbstractBasicDatabase<K, V> {
+    + AbstractBasicDatabase(): 
+    ~ getPrimaryKey(V): K
+    + lookupById(K): Optional<V>
+    + insert(Collection<V>)
+  }
+
+  class BasicCustomerDatabase {
+    + BasicCustomerDatabase(): 
+    ~ getPrimaryKey(Customer): IdType
+    + searchByUsername(String): Optional<Customer>
+  }
+
+  class BasicItemDatabase {
+    + BasicItemDatabase(): 
+    ~ getPrimaryKey(Item): IdType
+  }
+
+  interface CustomerDatabase << interface >> {
+    + searchByUsername(String): Optional<Customer>
+  }
+
+  interface ItemDatabase << interface >>
+  interface EntityDatabase<K, V> << interface >> {
+    + insert(Collection<V>)
+    + lookupById(K): Optional<V>
+  }
+}
+
+package interfaces.hardware #D5E8D4 {
+  class BasicCameraSimulator {
+    + BasicCameraSimulator(): 
+    + scan(): BufferedImage
+  }
+
+  interface Camera << interface >> {
+    + scan(): BufferedImage
+  }
+}
+
+package interfaces.queues #D5E8D4 {
+  class AbstractInProcQueue<T> {
+    # AbstractInProcQueue(InProcQueueContext): 
+    + serialize(T): Either<CheckoutException, byte[]>
+    # createReceiverSocket(): Socket
+    # send(Socket, T): Either<CheckoutException, Boolean>
+    + deserialize(byte[]): Either<CheckoutException, T>
+    # receive(Socket): Either<CheckoutException, T>
+    # createSenderSocket(): Socket
+  }
+
+  class InProcQueueContext {
+    + InProcQueueContext(): 
+    - address: String
+    - context: ZContext
+    address: String
+    context: ZContext
+  }
+}
+
+package interfaces.queues.senders #D5E8D4 {
+  interface AddItemToCartQueueSender << interface >>
+  interface CartCheckoutQueueSender << interface >>
+  interface QueueSender<T> << interface >> {
+    + send(T): Boolean
+  }
+  class InProcAddItemToCartQueueSender {
+    + InProcAddItemToCartQueueSender(InProcQueueContext): 
+    + send(Tuple2<Item, ShoppingCart>): Boolean
+  }
+}
+
+
+package interfaces.recommenders #D5E8D4 {
+    class BasicRecommender {
+    + BasicRecommender(): 
+    + getRecommendations(Item, CustomerProfile): RecommendedItems
+  }  
+
+  class RecommendedItems {
+    + RecommendedItems(): 
+    - profile: CustomerProfile
+    - items: List<Item>
+    profile: CustomerProfile
+    items: List<Item>
+  }
+
+  interface Recommender << interface >> {
+    + getRecommendations(Item, CustomerProfile): RecommendedItems
+  }
+}
+
+package interfaces.reviews #D5E8D4 {
+  interface ReviewsAPI << interface >> {
+  + getReviewsForItem(Item): List<ItemReview>
+}
+
+  class BasicReviewsAPI {
+    + BasicReviewsAPI(): 
+    + getReviewsForItem(Item): List<ItemReview>
+  }
+
+  class ItemReview {
+    + ItemReview(): 
+    - url: String
+    - item: Item
+    item: Item
+    url: String
+  }
+}
+
+package interfaces.components #D5E8D4 {
+  interface QRItemLookup << interface >> {
+    + convertQRCodeToItemId(BufferedImage): IdType
+  }
+
+  class BasicQRItemLookup {
+    + BasicQRItemLookup(): 
+    + convertQRCodeToItemId(BufferedImage): IdType
+  }
+
+}
+  
+package views #FFE6CC {
+    class Astro {
+    + handleAddItemToCart(): void
+    appController: AstroAppController
+  }
+}
+
+AbstractBasicDatabase             -[#008200,dashed]-^  EntityDatabase                   
+AbstractInProcQueue               -[#595959,dashed]->  CheckoutException                : "«create»"
+AbstractInProcQueue              "1" *-[#595959,plain]-> "queueContext\n1" InProcQueueContext               
+Astro                            "1" *-[#595959,plain]-> "appController\n1" AstroAppController               
+Astro                            "1" *-[#595959,plain]-> "customer\n1" Customer                         
+Astro                            "1" *-[#595959,plain]-> "selectedItem\n1" Item                             
+Astro                            "1" *-[#595959,plain]-> "cart\n1" ShoppingCart                     
+AstroAppController               "1" *-[#595959,plain]-> "customerDatabase\n1" CustomerDatabase                 
+AstroAppController               "1" *-[#595959,plain]-> "storeBusinessLayer\n1" StoreBusinessLayer               
+AstroAppModule                    -[#595959,dashed]->  InProcQueueContext               : "«create»"
+AuthenticationException           -[#000082,plain]-^  BestPurchaseAppException         
+BasicCameraSimulator              -[#595959,dashed]->  BestPurchaseAppException         : "«create»"
+BasicCameraSimulator              -[#008200,dashed]-^  Camera                           
+BasicCustomerDatabase             -[#000082,plain]-^  AbstractBasicDatabase            
+BasicCustomerDatabase             -[#008200,dashed]-^  CustomerDatabase                 
+BasicItemDatabase                 -[#000082,plain]-^  AbstractBasicDatabase            
+BasicItemDatabase                 -[#008200,dashed]-^  ItemDatabase                     
+BasicQRItemLookup                 -[#595959,dashed]->  BestPurchaseAppException         : "«create»"
+BasicQRItemLookup                 -[#595959,dashed]->  IdType                           : "«create»"
+BasicQRItemLookup                 -[#008200,dashed]-^  QRItemLookup                     
+BasicRecommender                  -[#595959,dashed]->  RecommendedItems                 : "«create»"
+BasicRecommender                  -[#008200,dashed]-^  Recommender                      
+BasicReviewsAPI                   -[#008200,dashed]-^  ReviewsAPI                       
+BasicStoreBusinessLayer          "1" *-[#595959,plain]-> "addItemToCartQueueSender\n1" AddItemToCartQueueSender         
+BasicStoreBusinessLayer          "1" *-[#595959,plain]-> "checkoutQueueSender\n1" CartCheckoutQueueSender          
+BasicStoreBusinessLayer          "1" *-[#595959,plain]-> "recommender\n1" Recommender                      
+BasicStoreBusinessLayer          "1" *-[#595959,plain]-> "reviewsAPI\n1" ReviewsAPI                       
+BasicStoreBusinessLayer          "1" *-[#595959,plain]-> "store\n1" Store                            
+BasicStoreBusinessLayer           -[#008200,dashed]-^  StoreBusinessLayer               
+BasicStoreBusinessLayer          "1" *-[#595959,plain]-> "warehouseInventory\n1" WarehouseInventory                   
+BasicWarehouseInventory          "1" *-[#595959,plain]-> "itemDatabase\n1" ItemDatabase                     
+BasicWarehouseInventory          "1" *-[#595959,plain]-> "warehouse\n1" Warehouse                        
+BasicWarehouseInventory           -[#008200,dashed]-^  WarehouseInventory                                
+CartCheckoutQueueSender           -[#008200,plain]-^  QueueSender                      
+CheckoutException                 -[#000082,plain]-^  BestPurchaseAppException         
+Customer                         "1" *-[#595959,plain]-> "profile\n1" CustomerProfile                  
+Customer                          -[#000082,plain]-^  Person                           
+Customer                         "1" *-[#595959,plain]-> "cart\n1" ShoppingCart                     
+Customer                         "1" *-[#595959,plain]-> "currentStoreLocation\n1" Store                            
+CustomerDatabase                  -[#008200,plain]-^  EntityDatabase                   
+CustomerProfile                   -[#595959,dashed]->  BestPurchaseAppException         : "«create»"
+InProcAddItemToCartQueueSender    -[#000082,plain]-^  AbstractInProcQueue              
+InProcAddItemToCartQueueSender    -[#008200,dashed]-^  AddItemToCartQueueSender         
+Item                             "1" *-[#595959,plain]-> "id\n1" IdType                           
+ItemDatabase                      -[#008200,plain]-^  EntityDatabase                   
+ItemReview                       "1" *-[#595959,plain]-> "item\n1" Item                             
+Person                           "1" *-[#595959,plain]-> "id\n1" IdType                           
+RecommendedItems                 "1" *-[#595959,plain]-> "profile\n1" CustomerProfile                  
+RecommendedItems                 "1" *-[#595959,plain]-> "items\n*" Item                             
+ShoppingCart                     "1" *-[#595959,plain]-> "id\n1" IdType                           
+ShoppingCart                      -[#595959,dashed]->  IdType                           : "«create»"
+ShoppingCart                     "1" *-[#595959,plain]-> "items\n*" Item                             
+Store                            "1" *-[#595959,plain]-> "warehouse\n1" Warehouse                        
+Warehouse                        "1" *-[#595959,plain]-> "availableItemQuantity\n*" Item                             
+@enduml

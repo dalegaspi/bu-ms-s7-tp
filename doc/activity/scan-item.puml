@@ -1,0 +1,34 @@
+@startuml
+start
+
+    repeat :Scanning of item QR code;
+        :Scan QR Code with camera;
+        :QRItemLookup.convertQRCodeToItemId(image);
+    backward:Show Invalid QR Code Error Dialog;
+
+    repeat while (Is valid QR Code?) is (no)
+        
+    ->yes;
+    :let selectedItem = Lookup ItemID (from QR Code)
+    in ItemDatabase;
+    if (selectItem is null?) then (yes)
+        :Show Item is Not Available Dialog;
+        stop
+    else (no)
+        :Get Item Details of selectedItem 
+        from WarehouseInventory
+        (price, recommendations,  
+        reviews, available quantity);
+        :set availableQty = available quantity;
+
+        :Display Item Details for selectedItem;
+        :Display Get Quantity for Item Dialog;
+        repeat
+        :let selectedQty = Get item quantity input from user;
+        backward: Show Not Enough Available Items Dialog;
+        repeat while (selectedQty > availableQty) is (yes)
+        ->no;
+        :User taps 'Add Item to Cart Button';
+    endif
+stop
+@enduml
