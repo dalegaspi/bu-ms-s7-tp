@@ -9,7 +9,7 @@
     @author dlegaspi@bu.edu
     @see 
 */
-function handleAddItemToCart() {
+function handleAddItemToCart(cart, profile) {
     let itemId = null
     let validQRCode = false
     while (validQRCode != true) do

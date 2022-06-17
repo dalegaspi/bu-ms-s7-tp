@@ -1,35 +1,39 @@
 @startuml
 start
+    :set cart from ShoppingCart parameter;
+    :set profile from CustomerProfile parameter;
     repeat
         :Scan QR Code with camera
         let image = camera.scan();
         :QRItemLookup.convertQRCodeToItemId(image);
     backward :<color:#red>**Show Invalid QR Code Error Dialog**;
 
-    repeat while (Is valid QR Code?) is (no)
+    repeat while (Is valid QR Code and no exceptions?) is (no)
         
     ->yes;
-    :let selectedItem = Lookup ItemID (from QR Code)
-    in ItemDatabase;
+    : Lookup ItemID (from QR Code) in ItemDatabase
+    let selectedItem = storeDatabaseLayer.lookupByItemId(itemId);
     if (selectItem is null?) then (yes)
         :<color:#red>**Show Item is Not Available Dialog**;
-        
     else (no)
         #FFE6CC:Get Item Details of selectedItem 
         from WarehouseInventory
-        (price, recommendations,  
-        reviews, available quantity);
-        :set availableQty = available quantity;
-
+        (price, recommendations, reviews);
+        :Determine available quantity
+        let availableQty = storeBusinessLayer.getAvailableQuantity(selectedItem);
         :Display Item Details for selectedItem;
-        :Display Get Quantity for Item Dialog;
+        :Display Get Quantity for Item Input Dialog;
         repeat
-        :let selectedQty = Get item quantity input from user;
-        backward: :<color:#red>**Show Not Enough Available Items Dialog**;
+            :let selectedQty = Get item quantity input from user;
+            backward: <color:#red>**Show Not Enough Available Items Dialog**;
         repeat while (selectedQty > availableQty) is (yes)
         ->no;
         :User taps 'Add Item to Cart Button';
-        :Send Add Item to Cart notification in queue;
+        :Add item to virtual cart and
+        and send notification to WarehouseInventory
+        "AddItemToCart" queue
+        storeBusinessLayer.addItemToCart(selectedItem);
+        :Display updated virtual cart;
     endif
     stop
 @enduml
