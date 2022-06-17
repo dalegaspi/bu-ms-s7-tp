@@ -6,10 +6,21 @@
     notification to the warehouse for the (partial) fulfillment of the item
     in the physical cart.
 
-    @author dlegaspi@bu.edu
-    @see 
+    The ShoppingCart and CustomerProfile parameters are presumed to be existing
+    from a previous (probably) authentication that leads up to this call; it is
+    safe to assume that these objects are valid instances and are not null.
+
+    This follows the pseudocode syntax from here:
+    https://marketplace.visualstudio.com/items?itemName=willumz.generic-pseudocode
+
+    @authordlegaspi@bu.edu
+    @see StoreDataBaseLayer::lookupByItemId
+    @see QRItemLookup::convertQRCodeToItemId
+    @param cart ShoppingCart the shopping cart
+    @param profile CustomerProfile the customer's profile
 */
 function handleAddItemToCart(cart, profile) {
+
     let itemId = null
     let validQRCode = false
     while (validQRCode != true) do
@@ -24,5 +35,23 @@ function handleAddItemToCart(cart, profile) {
         showErrorDialog("Invalid QR Code")
     end
 
-    let selectedItem = storeDatabaseLayer.lookupByItemId(itemId)
+    let selectedItem = storeBusinessLayer.lookupByItemId(itemId)
+    if (selectedItem != null) {
+        showErrorDialog("Item is not Available!")
+    } else {
+        let details = storeBusinessLayer.getItemDetails(selectedItem, profile)
+        let availableQty = storeBusinessLayer.getAvailableQuantity(selectedItem)
+
+        displayItemDetails(details)
+         
+        let selectedQty = 0
+        while (selectedQty > 0 and selectedQty > availableQty) do
+            selectedQty = getSelectedQuantityInputDialog()
+        end   
+        
+        waitForAddItemToCart() 
+        storeBusinessLayer.addItemToCart(selectedItem)
+
+        displayCartContents()
+    }
 }
