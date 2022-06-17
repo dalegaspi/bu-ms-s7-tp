@@ -19,39 +19,60 @@
     @param cart ShoppingCart the shopping cart
     @param profile CustomerProfile the customer's profile
 */
-function handleAddItemToCart(cart, profile) {
+function handleScanItem(cart, profile) {
 
+    // (1) Scan the selected item's QR code using the mobile device's camera
     let itemId = null
     let validQRCode = false
     while (validQRCode != true) do
         let img = camera.scan()
 
         try {
-            let itemId = qrItemLookup.convertQRCodeToItemId(img)        
+            // (2) Convert the QR code into an item id
+            let itemId = qrItemLookup.convertQRCodeToItemId(img)    
+            
+            // (2a) No exception; meaning the QR code is successfully converted
+            // into Item ID
             validQRCode = true;
         } catch(InvalidQRCodeException) {
             
         }
+        // (2b) An exception has occurred; meaning the QR code conversion failed
+        // so we repeat the process (validQRCode is still false)
         showErrorDialog("Invalid QR Code")
     end
-
+  
+    // (3) Look up the item id in the Item Database
     let selectedItem = storeBusinessLayer.lookupByItemId(itemId)
-    if (selectedItem != null) {
+
+    // (3a) The item id was not found in the database
+    if (selectedItem == null) {
+        // show the error dialog and then end here
         showErrorDialog("Item is not Available!")
     } else {
+        // (3b) The item id was found; we gather the details and availability
         let details = storeBusinessLayer.getItemDetails(selectedItem, profile)
         let availableQty = storeBusinessLayer.getAvailableQuantity(selectedItem)
 
+        // (4) Display the item details
         displayItemDetails(details)
          
+        // (5) Input the desired quantity; if quantity inputted is 0
+        // or more than the available quantity, throw up an error dialog
+        // and repeat the process
         let selectedQty = 0
         while (selectedQty > 0 and selectedQty > availableQty) do
             selectedQty = getSelectedQuantityInputDialog()
         end   
         
+        // (6) Wait for user to tap "Add Item to Cart"
         waitForAddItemToCart() 
+
+        // (7) Item added to cart, update the cart then send the notification
+        // via the AddItemToCart queue
         storeBusinessLayer.addItemToCart(selectedItem)
 
+        // (8) Update cart contents
         displayCartContents()
     }
 }

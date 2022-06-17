@@ -316,9 +316,14 @@ package interfaces.components #D5E8D4 {
 }
   
 package views #FFE6CC {
-    class Astro {
+    class Astro #pink;line:red;line.bold;text:red {
+    + handleScanItem(): void
     + handleAddItemToCart(): void
-    appController: AstroAppController
+    + displayItemDetails(): void
+    + appController: AstroAppController
+    + selectedItem: Item
+    + cart: ShoppingCart
+    + customer: Customer
   }
 }
 
@@ -327,8 +332,8 @@ AbstractInProcQueue               -[#595959,dashed]->  CheckoutException        
 AbstractInProcQueue              "1" *-[#595959,plain]-> "queueContext\n1" InProcQueueContext               
 Astro                            "1" *-[#595959,plain]-> "appController\n1" AstroAppController               
 Astro                            "1" *-[#595959,plain]-> "customer\n1" Customer                         
-Astro                            "1" *-[#595959,plain]-> "selectedItem\n1" Item                             
-Astro                            "1" *-[#595959,plain]-> "cart\n1" ShoppingCart                     
+Astro                            "1" *-[#595959,plain]-> "selectedItem\n1" Item
+Astro                            "1" *-[#595959,plain]-> "cart\n1" ShoppingCart
 AstroAppController               "1" *-[#595959,plain]-> "customerDatabase\n1" CustomerDatabase                 
 AstroAppController               "1" *-[#595959,plain]-> "storeBusinessLayer\n1" StoreBusinessLayer               
 AstroAppModule                    -[#595959,dashed]->  InProcQueueContext               : "«create»"
