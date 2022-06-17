@@ -1,0 +1,28 @@
+
+
+/*
+    This method is to handle the scanning of QR code and adding the scanned item
+    that corresponds to the QR code to the virtual cart and send the 
+    notification to the warehouse for the (partial) fulfillment of the item
+    in the physical cart.
+
+    @author dlegaspi@bu.edu
+    @see 
+*/
+function handleAddItemToCart() {
+    let itemId = null
+    let validQRCode = false
+    while (validQRCode != true) do
+        let img = camera.scan()
+
+        try {
+            let itemId = qrItemLookup.convertQRCodeToItemId(img)        
+            validQRCode = true;
+        } catch(InvalidQRCodeException) {
+            
+        }
+        showErrorDialog("Invalid QR Code")
+    end
+
+    let selectedItem = storeDatabaseLayer.lookupByItemId(itemId)
+}
