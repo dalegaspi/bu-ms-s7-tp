@@ -1,6 +1,8 @@
 package edu.bu.cs622.bestpurchase.entities.store;
 
 import edu.bu.cs622.bestpurchase.entities.persons.Employee;
+import io.vavr.Tuple;
+import io.vavr.Tuple2;
 
 import java.io.Serializable;
 import java.util.*;
@@ -30,7 +32,12 @@ public class ShoppingCart implements Serializable {
     }
 
     public void addItemToCart(Item item, int quantity) {
-        items.put(item, new ItemCartStatus(quantity, false));
+        if (items.containsKey(item)) {
+            var s = items.get(item);
+            items.put(item, new ItemCartStatus(s.getQuantity() + quantity, s.isFulfilled()));
+        } else {
+            items.put(item, new ItemCartStatus(quantity, false));
+        }
     }
 
     public void removeItem(Item item) {
@@ -39,6 +46,10 @@ public class ShoppingCart implements Serializable {
 
     public Collection<Item> getAllItems() {
         return items.keySet();
+    }
+
+    public Collection<Tuple2<Item, ItemCartStatus>> getAllItemStatuses() {
+        return items.entrySet().stream().map(e -> Tuple.of(e.getKey(), e.getValue())).toList();
     }
 
     public boolean isFulfilled() {

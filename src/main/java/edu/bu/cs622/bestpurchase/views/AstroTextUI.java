@@ -4,22 +4,34 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.gui2.dialogs.MessageDialog;
 import com.googlecode.lanterna.gui2.dialogs.TextInputDialogBuilder;
+import com.googlecode.lanterna.gui2.table.Table;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import edu.bu.cs622.bestpurchase.controllers.app.AstroAppController;
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
+import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
+import edu.bu.cs622.bestpurchase.exceptions.BestPurchaseAppException;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
+import io.vavr.Tuple3;
+import io.vavr.control.Either;
+import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
+import static com.googlecode.lanterna.gui2.GridLayout.createHorizontallyFilledLayoutData;
+
+/**
+ * @se
+ */
 public class AstroTextUI extends Astro {
     private static Logger logger = LoggerFactory.getLogger(AstroTextUI.class);
 
@@ -49,31 +61,35 @@ public class AstroTextUI extends Astro {
     @Override
     boolean handleAuthentication() {
         var authenticated = false;
+        Either<BestPurchaseAppException, Tuple3<ShoppingCart, Customer, CustomerProfile>> rc;
         do {
             var creds = getCredentials();
-            authenticated = authenticate(creds._1, creds._2);
+            rc  = authenticate(creds._1, creds._2);
+            authenticated = rc.isRight();
             if (!authenticated)
                 MessageDialog.showMessageDialog(gui, "Login", "Invalid username/password!");
+
         } while (!authenticated);
 
-        removeExitButton();
-        setActionToScan();
+        rc.map(t -> {
+            removeExitButton();
+            return handleScanItem(t._1, t._2, t._3);
+        });
 
         return true;
     }
 
-    boolean authenticate(String username, String password) {
+    Either<BestPurchaseAppException, Tuple3<ShoppingCart, Customer, CustomerProfile>> authenticate(String username, String password) {
         var customer = getAppController().authenticate(username, password);
 
-        customer.map(mc -> {
+        return customer.flatMap(mc -> {
             mc.ifPresent(c -> {
                 this.customer = c;
                 this.cart = getAppController().getStoreBusinessLayer().getShoppingCartFor(c);
             });
-            return mc;
+            return mc.isEmpty() ? Either.left(new BestPurchaseAppException("No customer found")) :
+                    Either.right(Tuple.of(this.cart, this.customer, this.customer.getProfile()));
         });
-
-        return customer.isRight() && customer.get().isPresent();
     }
 
     private Customer customer;
@@ -97,6 +113,8 @@ public class AstroTextUI extends Astro {
     private String selectedItemDetails;
 
     private ShoppingCart cart;
+
+    Table<String> cartContents;
 
     Tuple2<String, String> getCredentials() {
         var username = new TextInputDialogBuilder()
@@ -139,7 +157,8 @@ public class AstroTextUI extends Astro {
         panel.addComponent(quitButton);
     }
 
-    void setActionToAddToCart() {
+    @Override
+    boolean handleAddItemToCart(ShoppingCart cart, Customer customer, CustomerProfile profile) {
         messageLabel.setText(selectedItemDetails);
         replaceActionButton(new Button("Add Item to Cart", () -> {
             var qty = getItemQuantity();
@@ -147,12 +166,15 @@ public class AstroTextUI extends Astro {
             MessageDialog.showMessageDialog(gui, "Item", String.format("%d items added to cart.", qty));
             getAppController().addItemToCart(cart, selectedItem, qty);
             logger.info("Added item to cart [{}].", cart.getId().getEasyToRememberId());
-            setActionToScan();
+            handleScanItem(cart, customer, profile);
         }));
+
+        return true;
     }
 
-    void setActionToScan() {
-        messageLabel.setText(String.format("Hi, %s!\nClick on the button to start scanning your item!",
+    @Override
+    boolean handleScanItem(ShoppingCart cart, Customer customer, CustomerProfile profile) {
+        messageLabel.setText(String.format("Hi, %s!\nClick on the 'Scan QR Code with Camera' to scanning your item(s)!",
                         customer.getFirstName()));
         panel.removeComponent(shopActionButton);
         shopActionButton = new Button("Scan QR Code with Camera", () -> {
@@ -167,15 +189,18 @@ public class AstroTextUI extends Astro {
                                     String.format("There are no more available %s", selectedItem.getDescription()));
                 } else {
                     removeExitButton();
-                    setActionToAddToCart();
+                    handleAddItemToCart(cart, customer, profile);
                 }
             } else {
                 MessageDialog.showMessageDialog(gui, "Camera", "QR Code scan operation failed.");
             }
         });
 
+        displayCartContents();
         panel.addComponent(shopActionButton);
         addExitButton();
+
+        return true;
     }
 
     @Inject
@@ -195,9 +220,14 @@ public class AstroTextUI extends Astro {
 
             quitButton = new Button("Exit", () -> System.exit(0));
 
-            panel.addComponent(messageLabel, GridLayout.createHorizontallyFilledLayoutData(2));
+            cartContents = new Table<>("Quantity", "Item", "Price");
+            panel.addComponent(messageLabel, createHorizontallyFilledLayoutData(2));
+            panel.addComponent(new Label(""), createHorizontallyFilledLayoutData(2));
+            panel.addComponent(cartContents, createHorizontallyFilledLayoutData(2));
+            panel.addComponent(new Label(""), createHorizontallyFilledLayoutData(2));
             panel.addComponent(shopActionButton);
             panel.addComponent(quitButton);
+
 
             // Create window to hold the panel
             BasicWindow window = new BasicWindow();
@@ -205,9 +235,29 @@ public class AstroTextUI extends Astro {
 
             // Create gui and start gui
 
+            displayCartContents();
             gui.addWindowAndWait(window);
         } catch (Exception e) {
             logger.debug("Unable to initialize UI", e);
         }
+    }
+
+    @Override
+    boolean displayCartContents() {
+        cartContents.getTableModel().clear();
+
+        if (cart != null) {
+            cart.getAllItemStatuses().forEach(i -> {
+                cartContents.getTableModel().addRow(String.valueOf(i._2.getQuantity()),
+                        i._1.getDescription(),
+                        String.valueOf(i._1.getPrice()));
+            });
+        }
+
+        var total = getAppController().getStoreBusinessLayer().computeCartTotals(cart).toJavaOptional().orElse(new BigDecimal(0));
+        cartContents.getTableModel().addRow("Total", "", String.format("%.2f", total));
+
+        Try.run(() -> gui.updateScreen());
+        return true;
     }
 }

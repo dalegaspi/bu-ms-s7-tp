@@ -2,6 +2,7 @@ package edu.bu.cs622.bestpurchase.views;
 
 import edu.bu.cs622.bestpurchase.controllers.app.AstroAppController;
 import edu.bu.cs622.bestpurchase.entities.persons.Customer;
+import edu.bu.cs622.bestpurchase.entities.persons.CustomerProfile;
 import edu.bu.cs622.bestpurchase.entities.store.Item;
 import edu.bu.cs622.bestpurchase.entities.store.ShoppingCart;
 
@@ -21,5 +22,12 @@ public abstract class Astro {
     abstract boolean handleScanQRCode();
 
     abstract boolean handleAuthentication();
+
+    abstract boolean handleAddItemToCart(ShoppingCart cart, Customer customer, CustomerProfile profile);
+
+    abstract boolean handleScanItem(ShoppingCart cart, Customer customer, CustomerProfile profile);
+
     abstract void run();
+
+    abstract boolean displayCartContents();
 }

@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.math.BigDecimal;
+import java.util.stream.Collectors;
 
 /**
  * Default implementation of StoreBusinessLayer
@@ -124,7 +125,11 @@ public class BasicStoreBusinessLayer implements StoreBusinessLayer {
 
     @Override
     public Either<BestPurchaseAppException, BigDecimal> computeCartTotals(ShoppingCart cart) {
-        return Either.right(new BigDecimal(0));
+        if (cart == null)
+            return Either.right(new BigDecimal(0));
+        
+        var total = cart.getAllItemStatuses().stream().map(s -> s._1.getPrice().multiply(new BigDecimal(s._2.getQuantity()))).mapToDouble(BigDecimal::doubleValue).sum();
+        return Either.right(new BigDecimal(total));
     }
 
     @Override
