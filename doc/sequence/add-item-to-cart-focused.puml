@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+title Add Item to Cart
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam sequence {
+LifeLineBorderColor #D79B00
+LifeLineBackgroundColor #FFE6CC
+}
+
+participant ":AstroAppController" as appController <<Controller>> #DAE8FC
+participant ":StoreBusinessLayer" as store <<Controller>> #DAE8FC
+participant ":WarehouseInventory" as warehouse <<Controller>> #DAE8FC
+participant "cart:ShoppingCart" as cart #FFFFFF
+participant "selectedItem:Item" as selectedItem #FFFFFF
+participant "queue:AddItemToQueueSender" as queue <<Interface>> #D5E8D4
+
+'autonumber
+autoactivate On
+activate appController
+appController -> store: addItemToCart(selectedItem, cart, quantity)
+store -> cart: addItemToCart(selectedItem, quantity)
+return cart with updated item status
+store -> warehouse: updateQuantityForItem(item, quantity)
+return cart with updated item status
+note right
+It is important to note here
+that the cart (ShoppingCart)
+has the reference to the selectedItem
+and that it has status of being
+added to it with the corresponding
+quantity
+end note
+store -> queue: send(item, cart, quantity)
+note right
+This sends the item/cart/quantity message
+in the queue that goes to the warehouse
+for physical cart fulfillment
+end note
+return queued message send status/result
+return cart with updated item status
+@enduml

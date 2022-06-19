@@ -2,9 +2,10 @@
 start
     :set cart from ShoppingCart parameter;
     :set profile from CustomerProfile parameter;
+    :Scan QR Code with camera
+    let image = camera.scan();
     repeat
-        :Scan QR Code with camera
-        let image = camera.scan();
+
         :QRItemLookup.convertQRCodeToItemId(image);
     backward :<color:#red>**Show Invalid QR Code Error Dialog**;
 
@@ -16,7 +17,7 @@ start
     if (selectItem is null?) then (yes)
         :<color:#red>**Show Item is Not Available Dialog**;
     else (no)
-        #FFE6CC:let Get Item Details of selectedItem
+        :let Get Item Details of selectedItem
         from WarehouseInventory
         (price, recommendations, reviews)
         let details = storeBusinessLayer.getItemDetails(selectedItem);
@@ -30,7 +31,7 @@ start
         repeat while (selectedQty > 0 and selectedQty > availableQty) is (yes)
         ->no;
         :User taps 'Add Item to Cart Button';
-        :Add item to virtual cart and
+        #FFE6CC:Add item to virtual cart and
         and send notification to WarehouseInventory
         "AddItemToCart" queue
         storeBusinessLayer.addItemToCart(selectedItem);
