@@ -31,12 +31,18 @@ and that it has status of being
 added to it with the corresponding
 quantity
 end note
+loop retry 3 times 
 store -> queue: send(item, cart, quantity)
+return queued message send status/result
+end
 note right
 This sends the item/cart/quantity message
 in the queue that goes to the warehouse
-for physical cart fulfillment
+for physical cart fulfillment;
+Since this is a network call we need to
+employ some retry mechanism for robustness
 end note
-return queued message send status/result
+
+
 return cart with updated item status
 @enduml
