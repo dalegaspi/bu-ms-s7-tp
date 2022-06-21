@@ -1,8 +1,8 @@
 # CS682 Term Project
 
-<center>
+<p align="center">
 <img src="./doc/bplogo.png" width="180"/>
-</center>
+</p>
 This proof of concept that simulates a BestPurchase customer doing shopping inside a store.  The focus is to demonstrate the module/class design soundness and stability.
 
 ## Videos
