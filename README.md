@@ -3,7 +3,7 @@
 <p align="center">
 <img src="./doc/bplogo.png" width="180"/>
 </p>
-This proof of concept that simulates a BestPurchase customer doing shopping inside a store.  The focus is to demonstrate the module/class design soundness and stability.
+This is a proof of concept that simulates a BestPurchase customer doing shopping inside a store.  The focus is to demonstrate the module/class design soundness and stability.
 
 ## Videos
 
